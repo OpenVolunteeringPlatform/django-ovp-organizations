@@ -50,6 +50,7 @@ class Nonprofit(models.Model):
 	google_page = models.URLField(blank=True, null=True, default=None)
 	twitter_handle = models.URLField(blank=True, null=True, default=None)
 
+
 	#+- companies = models.ManyToManyField(Company, blank=True, null=True)
 
 	def __init__(self, *args, **kwargs):

@@ -9,18 +9,10 @@ from rest_framework import permissions
 class NonprofitCreateSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.Nonprofit
-    fields = ['id', 'name', 'email', 'password']
-    extra_kwargs = {'password': {'write_only': True}}
+    fields = ['name', 'image', 'cover', 'details', 'description', 'websitefacebook_page', 'google_page', 'twitter_handle']
 
   def validate(self, data):
     errors = dict()
-
-    if data.get('password'):
-      password = data.get('password', '')
-      try:
-        validate_password(password=password)
-      except ValidationError as e:
-        errors['password'] = list(e.messages)
 
     if errors:
       raise serializers.ValidationError(errors)
@@ -31,24 +23,9 @@ class NonprofitUpdateSerializer(NonprofitCreateSerializer):
   class Meta:
     model = models.Nonprofit
     permission_classes = (permissions.IsAuthenticated,)
-    fields = ['password']
-    extra_kwargs = {'password': {'write_only': True}}
+    fields = ['name', 'image', 'cover', 'details', 'description', 'websitefacebook_page', 'google_page', 'twitter_handle']
 
 class NonprofitSearchSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.Nonprofit
-    fields = ['id', 'name', 'description']
-
-class RecoveryTokenSerializer(serializers.Serializer):
-  email = serializers.CharField(required=True)
-
-  class Meta:
-    fields = ['email']
-
-class RecoverPasswordSerializer(serializers.Serializer):
-  email = serializers.CharField(required=True)
-  token = serializers.CharField(required=True)
-  new_password = serializers.CharField(required=True)
-
-  class Meta:
-    fields = ['email', 'token', 'new_password']
+    fields = ['id', 'name', 'description', 'details']

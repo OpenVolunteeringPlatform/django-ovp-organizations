@@ -6,6 +6,8 @@ from rest_framework import response
 from rest_framework import mixins, pagination
 from rest_framework import permissions
 
+from django.shortcuts import get_object_or_404
+
 #POST, PUT, PATCH -> /public-profile
 #-criar perfil publico
 #-editar perfil publico
@@ -21,7 +23,7 @@ class NonprofitResourceViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet)
   """
   queryset = models.Nonprofit.objects.all()
 
-  def current_user_get(self, request, *args, **kwargs):
+  def invite_user(self, request, *args, **kwargs):
     queryset = self.get_object()
     serializer = self.get_serializer(queryset)
     return response.Response(serializer.data)
