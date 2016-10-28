@@ -3,55 +3,35 @@ from django.utils import timezone
 
 from django.contrib.auth.models import PermissionsMixin
 
-from ovp_organizations import emails
-from ovp_organizations.helpers import NonprofitHelper
-
-#from ovp_nonprofits.ovp_projects import proj_models
-
-NONPROFIT_DEFAULT_PROFILE_IMAGE = "https://s3.amazonaws.com/atados-us/nonprofit/padrao-perfil.png"
-NONPROFIT_DEFAULT_COVER_IMAGE = "https://s3.amazonaws.com/atados-us/nonprofit/padrao-cover.png"
-
+#from ovp_organizations import emails
 
 class Nonprofit(models.Model):
 
-	#+- user = models.OneToOneField(settings.AUTH_USER_MODEL)
-	#+- causes = models.ManyToManyField(Cause, blank=True, null=True)
-	#+- volunteers = models.ManyToManyField(Volunteer, blank=True, null=True)
-
+	owner = models.ForeignKey(settings.AUTH_USER_MODEL, limit_choices_to={'is_staff': True})
 	name = models.CharField('Name', max_length=150)
-	#+- owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='nonprofits', limit_choices_to={'is_staff': True})
+	website = models.URLField(blank=True, null=True, default=None)
+	facebook_page = models.URLField(blank=True, null=True, default=None)
+  address = models.ForeignKey()
 
-	image = models.ImageField("Logo 200x200", upload_to=NonprofitHelper.nonprofit_image_name, blank=True, null=True, default=None)
-	cover = models.ImageField("Cover 1450x340", upload_to=NonprofitHelper.nonprofit_cover_name, blank=True, null=True, default=None)
-	#+- uploaded_image = models.ForeignKey('UploadedImage', related_name='uploaded_image', blank=True, null=True)
-	#+- uploaded_cover = models.ForeignKey('UploadedImage', related_name='uploaded_cover', blank=True, null=True)
 
-	#+- image_small = ResizedImageField(size=[250, 250], upload_to=NonprofitHelper.nonprofit_image_name_small, blank=True, null=True, default=None)
-	#+- image_medium = ResizedImageField(size=[450, 450], upload_to=NonprofitHelper.nonprofit_image_name_medium, blank=True, null=True, default=None)
-	#+- image_large = ResizedImageField(size=[900, 900], upload_to=NonprofitHelper.nonprofit_image_name_large, blank=True, null=True, default=None)
-
-	#+- visit_status = models.PositiveSmallIntegerField(('Visit status'), choices=VISIT_STATUS, default=None, blank=True, null=True)
-	#+- highlighted = models.BooleanField(("Highlighted"), default=False, blank=False)
+	highlighted = models.BooleanField(("Highlighted"), default=False, blank=False)
 	published = models.BooleanField("Published", default=False)
 	published_at = models.DateTimeField("Published date", blank=True, null=True)
 	deleted = models.BooleanField("Deleted", default=False)
 	deleted_at = models.DateTimeField("Deleted date", blank=True, null=True)
-
 	created_at = models.DateTimeField(auto_now_add=True)
 	modified_at = models.DateTimeField(auto_now=True)
 
-	#+- volunteer_count = models.IntegerField(null=False, blank=False, default=0)
 
 	details = models.CharField('Details', max_length=3000, blank=True, null=True, default=None)
 	description = models.CharField('Short description', max_length=160, blank=True, null=True)
 
-	website = models.URLField(blank=True, null=True, default=None)
-	facebook_page = models.URLField(blank=True, null=True, default=None)
-	google_page = models.URLField(blank=True, null=True, default=None)
-	twitter_handle = models.URLField(blank=True, null=True, default=None)
-
-
-	#+- companies = models.ManyToManyField(Company, blank=True, null=True)
+	#google_page = models.URLField(blank=True, null=True, default=None)
+	#twitter_handle = models.URLField(blank=True, null=True, default=None)
+	#uploaded_image = models.ForeignKey('UploadedImage', related_name='uploaded_image', blank=True, null=True)
+	#uploaded_cover = models.ForeignKey('UploadedImage', related_name='uploaded_cover', blank=True, null=True)
+	#causes = models.ManyToManyField(Cause, blank=True, null=True)
+	#volunteer_count = models.IntegerField(null=False, blank=False, default=0)
 
 	def __init__(self, *args, **kwargs):
 		super(Nonprofit, self).__init__(*args, **kwargs)
