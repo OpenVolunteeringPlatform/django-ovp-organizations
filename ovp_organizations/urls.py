@@ -5,7 +5,7 @@ from ovp_organizations import views
 
 
 router = routers.DefaultRouter()
-router.register(r'organizations', views.NonprofitResourceViewSet, 'organizations')
+router.register(r'organizations', views.OrganizationResourceViewSet, 'organizations')
 
 urlpatterns = [
   url(r'^', include(router.urls)),

@@ -1,12 +1,21 @@
 from django.db import models
 from django.utils import timezone
 
+ORGANIZATION_TYPES = (
+  (0, 'Organization'),
+  (1, 'School'),
+  (2, 'Company'),
+  (3, 'Group of volunteers'),
+)
+
 class Organization(models.Model):
   name = models.CharField('Name', max_length=150)
   website = models.URLField(blank=True, null=True, default=None)
   facebook_page = models.URLField(blank=True, null=True, default=None)
   owner = models.ForeignKey('ovp_users.User')
   address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True)
+
+  type = models.PositiveSmallIntegerField("Type", choices=ORGANIZATION_TYPES)
 
   highlighted = models.BooleanField(("Highlighted"), default=False, blank=False)
   published = models.BooleanField("Published", default=False)
@@ -27,7 +36,7 @@ class Organization(models.Model):
   #volunteer_count = models.IntegerField(null=False, blank=False, default=0)
 
   def __init__(self, *args, **kwargs):
-    super(Nonprofit, self).__init__(*args, **kwargs)
+    super(Organization, self).__init__(*args, **kwargs)
     self.__orig_deleted = self.deleted
     self.__orig_published = self.published
 
@@ -49,7 +58,7 @@ class Organization(models.Model):
     if self.description and len(self.description) > 0:
       return self.description if limit is None else Truncator(self.description).chars(limit)
     else:
-      description_length = Nonprofit._meta.get_field('description').max_length if limit is None else limit
+      description_length = Organization._meta.get_field('description').max_length if limit is None else limit
       return Truncator(self.details).chars(description_length)
 
   #def get_image_url(self):
@@ -92,12 +101,12 @@ class Organization(models.Model):
     # If _committed == False, it means the image is not uploaded to s3 yet
     # (will be uploaded on super.save()). This means the image is being updated
     # So we update other images accordingly
-    if not self.image._committed:
+    #if not self.image._committed:
       # ._file because we need the InMemoryUploadedFile instance
       #+-self.image_small = self.image._file
       #+-self.image_medium = self.image._file
       #+-self.image_large = self.image._file
-      pass
+    #  pass
 
     if self.pk is not None:
       if not self.__orig_published and self.published:
