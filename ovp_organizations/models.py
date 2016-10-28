@@ -3,8 +3,8 @@ from django.utils import timezone
 
 from django.contrib.auth.models import PermissionsMixin
 
-from ovp_nonprofits import emails
-from ovp_nonprofits.helpers import NonprofitHelper
+from ovp_organizations import emails
+from ovp_organizations.helpers import NonprofitHelper
 
 #from ovp_nonprofits.ovp_projects import proj_models
 

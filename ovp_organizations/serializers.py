@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 
-from ovp_nonprofits import models
+from ovp_organizations import models
 
 from rest_framework import serializers
 from rest_framework import permissions

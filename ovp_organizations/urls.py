@@ -1,11 +1,11 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 
-from ovp_nonprofits import views
+from ovp_organizations import views
 
 
 router = routers.DefaultRouter()
-router.register(r'nonprofits', views.NonprofitResourceViewSet, 'public-profile')
+router.register(r'organizations', views.NonprofitResourceViewSet, 'organizations')
 
 urlpatterns = [
   url(r'^', include(router.urls)),

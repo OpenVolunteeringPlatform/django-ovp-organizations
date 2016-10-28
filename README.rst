@@ -1,24 +1,22 @@
 ==========
-OVP Projects
+OVP Organizations
 ==========
 
 .. image:: https://app.codeship.com/projects/01c71ae0-73a1-0134-6261-42bac1247deb/status?branch=master
-.. image:: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-nonprofits/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-nonprofits
+.. image:: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-organizations/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-organizations
 
-This module implements core user functionality.
+This module implements core organization functionality.
 
 Getting Started
 ---------------
 Installing
 """"""""""""""
-1. Install django-ovp-nonprofits::
+1. Install django-ovp-organizations::
 
-    pip install ovp-nonprofits
+    pip install ovp-organizations
 
 2. Add it to `INSTALLED_APPS` on `settings.py`
-
-3. Add `rest_framework_jwt` to `INSTALLED_APPS`
 
 
 Forking
@@ -33,16 +31,16 @@ To test this module
 
 ::
 
-  python ovp_nonprofits/tests/runtests.py
+  python ovp_organizations/tests/runtests.py
 
 Contributing
 ---------------
-Please read `CONTRIBUTING.md <https://github.com/OpenVolunteeringPlatform/django-ovp-users/blob/master/CONTRIBUTING.md>`_ for details on our code of conduct, and the process for submitting pull requests to us.
+Please read `CONTRIBUTING.md <https://github.com/OpenVolunteeringPlatform/django-ovp-organizations/blob/master/CONTRIBUTING.md>`_ for details on our code of conduct, and the process for submitting pull requests to us.
 
 Versioning
 ---------------
-We use `SemVer <http://semver.org/>`_ for versioning. For the versions available, see the `tags on this repository <https://github.com/OpenVolunteeringPlatform/django-ovp-users/tags>`_. 
+We use `SemVer <http://semver.org/>`_ for versioning. For the versions available, see the `tags on this repository <https://github.com/OpenVolunteeringPlatform/django-ovp-organizations/tags>`_. 
 
 License
 ---------------
-This project is licensed under the GNU GPLv3 License see the `LICENSE.md <https://github.com/OpenVolunteeringPlatform/django-ovp-users/blob/master/LICENSE.md>`_ file for details
+This project is licensed under the GNU GPLv3 License see the `LICENSE.md <https://github.com/OpenVolunteeringPlatform/django-ovp-organizations/blob/master/LICENSE.md>`_ file for details

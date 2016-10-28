@@ -1,5 +1,5 @@
-from ovp_nonprofits import serializers
-from ovp_nonprofits import models
+from ovp_organizations import serializers
+from ovp_organizations import models
 
 from rest_framework import decorators, viewsets
 from rest_framework import response
