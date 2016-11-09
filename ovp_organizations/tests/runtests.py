@@ -14,6 +14,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(BASE_DIR, '../..')))
 # Unfortunately, apps can not be installed via ``modify_settings``
 # decorator, because it would miss the database setup.
 CUSTOM_INSTALLED_APPS = (
+    'ovp_core',
+    'ovp_users',
     'ovp_organizations',
     'django.contrib.admin',
 )
