@@ -22,6 +22,10 @@ v0.1.3
 * Add ovp_core and ovp_users to runtests
 * Upgrade ovp_core, ovp_users and rest-framework
 
+v0.1.4
+-----------
+* Add causes field
+
 v0.2.0
 -----------
 * Implement model and serializer logic
