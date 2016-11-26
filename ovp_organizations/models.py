@@ -32,7 +32,7 @@ class Organization(models.Model):
   #twitter_handle = models.URLField(blank=True, null=True, default=None)
   #uploaded_image = models.ForeignKey('UploadedImage', related_name='uploaded_image', blank=True, null=True)
   #uploaded_cover = models.ForeignKey('UploadedImage', related_name='uploaded_cover', blank=True, null=True)
-  #causes = models.ManyToManyField(Cause, blank=True, null=True)
+  causes = models.ManyToManyField('ovp_core.Cause')
   #volunteer_count = models.IntegerField(null=False, blank=False, default=0)
 
   def __init__(self, *args, **kwargs):
