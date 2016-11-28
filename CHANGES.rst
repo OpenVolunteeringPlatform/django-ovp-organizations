@@ -26,6 +26,11 @@ v0.1.4
 -----------
 * Add causes field
 
+v0.1.5
+-----------
+* Return address field on OrganizationSearchSerializer
+
+
 v0.2.0
 -----------
 * Implement model and serializer logic

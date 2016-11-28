@@ -4,12 +4,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='ovp-organizations',
-    version='0.1.4',
+    version='0.1.5',
     author=u'Atados',
     author_email='arroyo@atados.com.br',
     packages=find_packages(),
     url='https://github.com/OpenVolunteeringPlatform/django-ovp-organizations',
-    download_url = 'https://github.com/OpenVolunteeringPlatform/django-ovp-organizations/tarball/0.1.4',
+    download_url = 'https://github.com/OpenVolunteeringPlatform/django-ovp-organizations/tarball/0.1.5',
     license='AGPL',
     description='This module has core functionality for' + \
                 ' ovp organization, such as: creating, listing,' + \
