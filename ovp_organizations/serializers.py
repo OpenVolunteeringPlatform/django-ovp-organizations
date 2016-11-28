@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 
 from ovp_core import validators as core_validators
-from ovp_core.serializers import GoogleAddressSerializer
+from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
 
 from ovp_organizations import models
 
@@ -35,6 +35,8 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 #    fields = ['name', 'image', 'cover', 'details', 'description', 'websitefacebook_page', 'google_page', 'twitter_handle']
 
 class OrganizationSearchSerializer(serializers.ModelSerializer):
+  address = GoogleAddressCityStateSerializer()
+
   class Meta:
     model = models.Organization
     fields = ['id', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
