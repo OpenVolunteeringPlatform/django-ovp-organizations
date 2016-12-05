@@ -30,6 +30,10 @@ v0.1.5
 -----------
 * Return address field on OrganizationSearchSerializer
 
+v0.1.6
+-----------
+* Make address field not required on OrganizationCreateSerializer
+
 
 v0.2.0
 -----------
