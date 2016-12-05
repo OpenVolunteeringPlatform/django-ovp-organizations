@@ -10,7 +10,8 @@ from rest_framework import permissions
 
 class OrganizationCreateSerializer(serializers.ModelSerializer):
   address = GoogleAddressSerializer(
-      validators=[core_validators.address_validate]
+      validators=[core_validators.address_validate],
+      required=False,
     )
 
   class Meta:
@@ -19,10 +20,11 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):
     # Address
-    address_data = validated_data.pop('address', {})
-    address_sr = GoogleAddressSerializer(data=address_data)
-    address = address_sr.create(address_data)
-    validated_data['address'] = address
+    address_data = validated_data.pop('address', None)
+    if address_data:
+      address_sr = GoogleAddressSerializer(data=address_data)
+      address = address_sr.create(address_data)
+      validated_data['address'] = address
 
     # Organization
     organization = models.Organization.objects.create(**validated_data)
