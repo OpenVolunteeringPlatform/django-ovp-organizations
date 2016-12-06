@@ -9,14 +9,22 @@ ORGANIZATION_TYPES = (
 )
 
 class Organization(models.Model):
-  name = models.CharField('Name', max_length=150)
-  website = models.URLField(blank=True, null=True, default=None)
-  facebook_page = models.URLField(blank=True, null=True, default=None)
+  # Relationships
   owner = models.ForeignKey('ovp_users.User')
   address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True)
+  image = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True)
+  causes = models.ManyToManyField('ovp_core.Cause')
 
+  # Fields
+  slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
+  name = models.CharField('Name', max_length=150)
+  website = models.URLField(blank=True, null=True, default=None)
+  facebook_page = models.CharField(max_length=255, blank=True, null=True, default=None)
   type = models.PositiveSmallIntegerField("Type", choices=ORGANIZATION_TYPES)
+  details = models.CharField('Details', max_length=3000, blank=True, null=True, default=None)
+  description = models.CharField('Short description', max_length=160, blank=True, null=True)
 
+  # Meta
   highlighted = models.BooleanField(("Highlighted"), default=False, blank=False)
   published = models.BooleanField("Published", default=False)
   published_at = models.DateTimeField("Published date", blank=True, null=True)
@@ -25,15 +33,6 @@ class Organization(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   modified_at = models.DateTimeField(auto_now=True)
 
-  details = models.CharField('Details', max_length=3000, blank=True, null=True, default=None)
-  description = models.CharField('Short description', max_length=160, blank=True, null=True)
-
-  #google_page = models.URLField(blank=True, null=True, default=None)
-  #twitter_handle = models.URLField(blank=True, null=True, default=None)
-  #uploaded_image = models.ForeignKey('UploadedImage', related_name='uploaded_image', blank=True, null=True)
-  #uploaded_cover = models.ForeignKey('UploadedImage', related_name='uploaded_cover', blank=True, null=True)
-  causes = models.ManyToManyField('ovp_core.Cause')
-  #volunteer_count = models.IntegerField(null=False, blank=False, default=0)
 
   def __init__(self, *args, **kwargs):
     super(Organization, self).__init__(*args, **kwargs)
