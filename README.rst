@@ -2,9 +2,11 @@
 OVP Organizations
 ==========
 
-.. image:: https://app.codeship.com/projects/01c71ae0-73a1-0134-6261-42bac1247deb/status?branch=master
-.. image:: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-organizations/branch/master/graph/badge.svg
+.. image:: https://img.shields.io/codeship/5364c170-9e01-0134-9ca2-328bd15b6072/master.svg?style=flat-square
+.. image:: https://img.shields.io/codecov/c/github/OpenVolunteeringPlatform/django-ovp-organizations.svg?style=flat-square
   :target: https://codecov.io/gh/OpenVolunteeringPlatform/django-ovp-organizations
+.. image:: https://img.shields.io/pypi/v/ovp-organizations.svg?style=flat-square
+  :target: https://pypi.python.org/pypi/ovp-organizations/
 
 This module implements core organization functionality.
 
