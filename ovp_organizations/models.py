@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 
 ORGANIZATION_TYPES = (
   (0, 'Organization'),
@@ -60,36 +61,6 @@ class Organization(models.Model):
       description_length = Organization._meta.get_field('description').max_length if limit is None else limit
       return Truncator(self.details).chars(description_length)
 
-  #def get_image_url(self):
-  #  return self.image.url if self.image else NONPROFIT_DEFAULT_PROFILE_IMAGE
-    #+--if self.not_nonprofit:
-    #+--  return self.uploaded_image.get_image_url() if self.uploaded_image else NONPROFIT_DEFAULT_PROFILE_IMAGE
-    #+--else:
-    #+--  if self.uploaded_image is not None:
-    #+--    return self.uploaded_image.get_image_url()
-    #+--  else:
-    #+--    return self.image.url if self.image else NONPROFIT_DEFAULT_PROFILE_IMAGE
-
-  #def get_cover_url(self):
-  #  return self.cover.url if self.cover else NONPROFIT_DEFAULT_COVER_IMAGE
-    #+--if self.not_nonprofit:
-    #+--  return self.uploaded_cover.get_image_url() if self.uploaded_cover else NONPROFIT_DEFAULT_COVER_IMAGE
-    #+--else:
-    #+--  if self.uploaded_cover is not None:
-    #+--    return self.uploaded_cover.get_image_url()
-    #+--  else:
-    #+--    return self.cover.url if self.cover else NONPROFIT_DEFAULT_COVER_IMAGE
-
-  #---def get_volunteers(self):
-  #---  return Volunteer.objects.filter(
-  #---    Q(id__in=self.volunteers.all().values_list('id', flat=True)) |
-  #---    Q(apply__project__nonprofit__id=self.id)).distinct()
-
-  #---def get_volunteers_numbers(self):
-  #---  return Volunteer.objects.filter(
-  #---    Q(id__in=self.volunteers.all().values_list('id', flat=True)) |
-  #---    Q(apply__project__nonprofit__id=self.id)).distinct().count
-
 
   #def mailing(self):
   #  if self.__mailing is None:
@@ -97,16 +68,6 @@ class Organization(models.Model):
   #  return self.__mailing
 
   def save(self, *args, **kwargs):
-    # If _committed == False, it means the image is not uploaded to s3 yet
-    # (will be uploaded on super.save()). This means the image is being updated
-    # So we update other images accordingly
-    #if not self.image._committed:
-      # ._file because we need the InMemoryUploadedFile instance
-      #+-self.image_small = self.image._file
-      #+-self.image_medium = self.image._file
-      #+-self.image_large = self.image._file
-    #  pass
-
     if self.pk is not None:
       if not self.__orig_published and self.published:
         self.published_at = timezone.now()
@@ -114,8 +75,27 @@ class Organization(models.Model):
 
       if not self.__orig_deleted and self.deleted:
         self.deleted_at = timezone.now()
+    else:
+      # Organization being created
+      self.slug = self.generate_slug()
+      #self.mailing().
 
     return super(Organization, self).save(*args, **kwargs)
+
+
+  def generate_slug(self):
+    if self.name:
+      slug = slugify(self.name)[0:99]
+      append = ''
+      i = 0
+
+      query = Organization.objects.filter(slug=slug + append)
+      while query.count() > 0:
+        i += 1
+        append = '-' + str(i)
+        query = Organization.objects.filter(slug=slug + append)
+      return slug + append
+    return None
 
   class Meta:
     app_label = 'ovp_organizations'
