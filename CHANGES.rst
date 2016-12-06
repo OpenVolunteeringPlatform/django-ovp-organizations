@@ -34,8 +34,8 @@ v0.1.6
 -----------
 * Make address field not required on OrganizationCreateSerializer
 
-
-v0.2.0
+v0.1.7
 -----------
-* Implement model and serializer logic
-* Implement views, helpers and emails
+* Implement slug field on Organization
+* Rename .published_at, .modified_at, .deleted_at, .created_at to .published_date, .modified_date, .deleted_date, .created_date
+* Update test suite coverage to 100%
