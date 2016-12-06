@@ -28,11 +28,11 @@ class Organization(models.Model):
   # Meta
   highlighted = models.BooleanField(("Highlighted"), default=False, blank=False)
   published = models.BooleanField("Published", default=False)
-  published_at = models.DateTimeField("Published date", blank=True, null=True)
+  published_date = models.DateTimeField("Published date", blank=True, null=True)
   deleted = models.BooleanField("Deleted", default=False)
-  deleted_at = models.DateTimeField("Deleted date", blank=True, null=True)
-  created_at = models.DateTimeField(auto_now_add=True)
-  modified_at = models.DateTimeField(auto_now=True)
+  deleted_date = models.DateTimeField("Deleted date", blank=True, null=True)
+  created_date = models.DateTimeField(auto_now_add=True)
+  modified_date = models.DateTimeField(auto_now=True)
 
 
   def __init__(self, *args, **kwargs):
@@ -46,6 +46,7 @@ class Organization(models.Model):
 
   def delete(self, *args, **kwargs):
     self.deleted = True
+    self.published = False
     self.save()
 
   #+- def image_name(self, filename):
@@ -70,11 +71,11 @@ class Organization(models.Model):
   def save(self, *args, **kwargs):
     if self.pk is not None:
       if not self.__orig_published and self.published:
-        self.published_at = timezone.now()
+        self.published_date = timezone.now()
         #self.mailing().sendApproved()
 
       if not self.__orig_deleted and self.deleted:
-        self.deleted_at = timezone.now()
+        self.deleted_date = timezone.now()
     else:
       # Organization being created
       self.slug = self.generate_slug()
