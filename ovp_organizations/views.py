@@ -15,7 +15,6 @@ from django.shortcuts import get_object_or_404
 #-convidar outro usuario pra organização
 #-sair da organização
 #-email
-#-admin(visualizar, publicar)
 #
 #GET -> /public-profile/:pk
 class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -23,6 +22,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
   OrganizationResourceViewSet resource endpoint
   """
   queryset = models.Organization.objects.all()
+  lookup_field = 'slug'
+  lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
   #def invite_user(self, request, *args, **kwargs):
   #  queryset = self.get_object()
@@ -34,7 +35,17 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     if self.action == 'create':
       return serializers.OrganizationCreateSerializer
     if self.action == 'retrieve':
-      return serializers.OrganizationCreateSerializer
+      return serializers.OrganizationRetrieveSerializer
+
+
+  def get_permissions(self):
+    request = self.get_serializer_context()['request']
+    if self.action == 'create':
+      self.permission_classes = (permissions.IsAuthenticated,)
+    if self.action == 'retrieve':
+      self.permission_classes = ()
+
+    return super(OrganizationResourceViewSet, self).get_permissions()
 
   def create(self, request, *args, **kwargs):
     request.data['owner'] = request.user.id

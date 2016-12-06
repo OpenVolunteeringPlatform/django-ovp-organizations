@@ -16,7 +16,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
 
   def create(self, validated_data):
     # Address
@@ -30,15 +30,16 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
     organization = models.Organization.objects.create(**validated_data)
     return organization
 
-#class NonprofitUpdateSerializer(NonprofitCreateSerializer):
-#  class Meta:
-#    model = models.Nonprofit
-#    permission_classes = (permissions.IsAuthenticated,)
-#    fields = ['name', 'image', 'cover', 'details', 'description', 'websitefacebook_page', 'google_page', 'twitter_handle']
-
 class OrganizationSearchSerializer(serializers.ModelSerializer):
   address = GoogleAddressCityStateSerializer()
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+
+class OrganizationRetrieveSerializer(serializers.ModelSerializer):
+  address = GoogleAddressCityStateSerializer()
+
+  class Meta:
+    model = models.Organization
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
