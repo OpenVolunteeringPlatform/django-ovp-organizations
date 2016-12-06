@@ -55,13 +55,6 @@ class Organization(models.Model):
   #-+-def get_projects(self, deleted=False):
   #-+-  return Project.objects.filter(nonprofit=self, deleted=deleted)
 
-  def get_description(self, limit=None):
-    if self.description and len(self.description) > 0:
-      return self.description if limit is None else Truncator(self.description).chars(limit)
-    else:
-      description_length = Organization._meta.get_field('description').max_length if limit is None else limit
-      return Truncator(self.details).chars(description_length)
-
 
   #def mailing(self):
   #  if self.__mailing is None:
@@ -80,6 +73,13 @@ class Organization(models.Model):
       # Organization being created
       self.slug = self.generate_slug()
       #self.mailing().
+
+    # If there is no description, take 100 chars from the details
+    if not self.description and self.details:
+      if len(self.details) > 100:
+        self.description = self.details[0:100]
+      else:
+        self.description = self.details
 
     return super(Organization, self).save(*args, **kwargs)
 
