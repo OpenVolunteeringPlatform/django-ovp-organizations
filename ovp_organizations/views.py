@@ -52,7 +52,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    organization = serializer.save()
+    organization.members.add(request.user)
 
     headers = self.get_success_headers(serializer.data)
     return response.Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

@@ -39,6 +39,7 @@ class OrganizationResourceViewSetTestCase(TestCase):
 
     organization = Organization.objects.get(pk=response.data["id"])
     self.assertTrue(organization.owner.id == user.id)
+    self.assertTrue(user in organization.members.all())
     self.assertTrue(organization.address.typed_address == data["address"]["typed_address"])
 
   def test_cant_create_organization_empty_name(self):

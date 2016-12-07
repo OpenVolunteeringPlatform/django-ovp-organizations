@@ -15,6 +15,7 @@ class Organization(models.Model):
   address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True)
   image = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True)
   causes = models.ManyToManyField('ovp_core.Cause')
+  members = models.ManyToManyField('ovp_users.User', related_name="organizations_member")
 
   # Fields
   slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
