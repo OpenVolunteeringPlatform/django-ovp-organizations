@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 
+from ovp_organizations.emails import OrganizationMail
+
 ORGANIZATION_TYPES = (
   (0, 'Organization'),
   (1, 'School'),
@@ -57,23 +59,21 @@ class Organization(models.Model):
   #-+-  return Project.objects.filter(nonprofit=self, deleted=deleted)
 
 
-  #def mailing(self):
-  #  if self.__mailing is None:
-  #    self.__mailing = NonprofitMail(self)
-  #  return self.__mailing
+  def mailing(self):
+    return OrganizationMail(self)
 
   def save(self, *args, **kwargs):
     if self.pk is not None:
       if not self.__orig_published and self.published:
         self.published_date = timezone.now()
-        #self.mailing().sendApproved()
+        self.mailing().sendOrganizationPublished()
 
       if not self.__orig_deleted and self.deleted:
         self.deleted_date = timezone.now()
     else:
       # Organization being created
       self.slug = self.generate_slug()
-      #self.mailing().
+      self.mailing().sendOrganizationCreated()
 
     # If there is no description, take 100 chars from the details
     if not self.description and self.details:
