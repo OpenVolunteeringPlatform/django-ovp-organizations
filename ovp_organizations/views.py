@@ -47,6 +47,9 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
     invite = models.OrganizationInvite(invitator=request.user, invited=invited, organization=organization)
     invite.save()
+
+    organization.mailing().sendUserInvited(context={"invite": invite})
+
     return response.Response({"detail": "User invited."})
 
   @decorators.detail_route(methods=["POST"])

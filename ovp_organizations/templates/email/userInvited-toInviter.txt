@@ -1,0 +1,1 @@
+You invited {{invited.name}} to organization {{organization.name}}.

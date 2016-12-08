@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.core import mail
 
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
@@ -112,7 +113,10 @@ class OrganizationInviteTestCase(TestCase):
 
   def test_can_invite_user(self):
     """ Test it's possible to invite user """
+    mail.outbox = []
     self.assertTrue(OrganizationInvite.objects.all().count() == 0)
+    self.assertTrue(len(mail.outbox) == 0)
+
     response = self.client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "valid@user.com"}, format="json")
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "User invited.")
@@ -121,6 +125,29 @@ class OrganizationInviteTestCase(TestCase):
     invite = OrganizationInvite.objects.last()
     self.assertTrue(invite.invitator == self.user)
     self.assertTrue(invite.invited == self.user2)
+
+    self.assertTrue(len(mail.outbox) == 2)
+    self.assertTrue(mail.outbox[0].subject == "You are invited to an organization")
+    self.assertTrue(mail.outbox[1].subject == "You invited a member to an organization you own")
+
+
+    third_user = User(email="third@user.com")
+    third_user.save()
+
+    fourth_user = User(email="fourth@user.com")
+    fourth_user.save()
+
+    self.organization.members.add(third_user)
+    self.client.force_authenticate(third_user)
+
+    mail.outbox = []
+    self.assertTrue(len(mail.outbox) == 0)
+    response = self.client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "fourth@user.com"}, format="json")
+
+    self.assertTrue(len(mail.outbox) == 3)
+    self.assertTrue(mail.outbox[0].subject == "You are invited to an organization")
+    self.assertTrue(mail.outbox[1].subject == "A member has been invited to your organization")
+    self.assertTrue(mail.outbox[2].subject == "You invited a member to an organization you are part of")
 
   def test_cant_invite_unauthenticated(self):
     """ Test it's not possible to invite user if not authenticated """
@@ -195,11 +222,11 @@ class OrganizationInviteTestCase(TestCase):
   def test_can_revoke_invite(self):
     """ Test it's possible to revoke invitation """
     self.test_can_invite_user()
-    self.assertTrue(OrganizationInvite.objects.all().count() == 1)
+    self.assertTrue(OrganizationInvite.objects.all().count() == 2)
     response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "valid@user.com"}, format="json")
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "Invite has been revoked.")
-    self.assertTrue(OrganizationInvite.objects.all().count() == 0)
+    self.assertTrue(OrganizationInvite.objects.all().count() == 1)
 
 
 class OrganizationLeaveTestCase(TestCase):
