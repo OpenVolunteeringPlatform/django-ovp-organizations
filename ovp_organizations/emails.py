@@ -42,3 +42,16 @@ class OrganizationMail(BaseMail):
 
       self.__init__(context['invite'].organization, async_mail=self.async_mail, override_receiver=context['invite'].invitator.email)
       self.sendEmail('userInvited-toInviter', 'You invited a member to an organization you are part of', context)
+
+
+  def sendUserLeft(self, context={}):
+    """
+    Sent when user leaves organization
+    """
+    # invited user email
+    self.__init__(context['organization'], async_mail=self.async_mail, override_receiver=context['user'].email)
+    self.sendEmail('userLeft-toUser', 'You have left an organization', context)
+
+    self.__init__(context['organization'], async_mail=self.async_mail, override_receiver=context['organization'].owner.email)
+    self.sendEmail('userLeft-toOwner', 'An user has left an organization you own', context)
+

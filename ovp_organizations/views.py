@@ -81,6 +81,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     organization = self.get_object()
     organization.members.remove(request.user)
 
+    organization.mailing().sendUserLeft(context={"user": request.user, "organization": organization})
+
     return response.Response({"detail": "You've left the organization."})
 
   @decorators.detail_route(methods=["POST"])

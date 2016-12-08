@@ -271,6 +271,8 @@ class OrganizationLeaveTestCase(TestCase):
 
   def test_can_leave_organization(self):
     """ Test it's possible to leave the organization """
+    mail.outbox = []
+    self.assertTrue(len(mail.outbox) == 0)
     self.assertTrue(self.user2 in self.organization.members.all())
     self.client.force_authenticate(self.user2)
     response = self.client.post(reverse("organization-leave", ["test-organization"]), {}, format="json")
@@ -278,6 +280,10 @@ class OrganizationLeaveTestCase(TestCase):
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "You've left the organization.")
     self.assertTrue(self.user2 not in self.organization.members.all())
+
+    self.assertTrue(len(mail.outbox) == 2)
+    self.assertTrue(mail.outbox[0].subject == "You have left an organization")
+    self.assertTrue(mail.outbox[1].subject == "An user has left an organization you own")
 
   def test_cant_remove_member_if_unauthenticated(self):
     """ Test it's not possible to remove a member while unauthenticated """
