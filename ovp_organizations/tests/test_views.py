@@ -185,12 +185,19 @@ class OrganizationInviteTestCase(TestCase):
     self.test_can_invite_user()
     self.assertTrue(self.user2 not in self.organization.members.all())
 
+    mail.outbox = []
+    self.assertTrue(len(mail.outbox) == 0)
+
     client = APIClient()
     client.force_authenticate(self.user2)
     response = client.post(reverse("organization-join", ["test-organization"]), {}, format="json")
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "Joined organization.")
     self.assertTrue(self.user2 in self.organization.members.all())
+
+    self.assertTrue(len(mail.outbox) == 2)
+    self.assertTrue(mail.outbox[0].subject == "You have joined an organization")
+    self.assertTrue(mail.outbox[1].subject == "An user has joined an organization you own")
 
   def test_cant_revoke_if_unauthenticated(self):
     """ Test it's not possible to revoke invitation if not authenticated"""

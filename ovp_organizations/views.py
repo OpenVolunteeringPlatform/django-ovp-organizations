@@ -57,6 +57,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     organization = self.get_object()
     organization.members.add(request.user)
 
+    organization.mailing().sendUserJoined(context={"user": request.user, "organization": organization})
+
     return response.Response({"detail": "Joined organization."})
 
   @decorators.detail_route(methods=["POST"])
