@@ -99,6 +99,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
     organization.members.remove(user)
 
+    organization.mailing().sendUserRemoved(context={"user": user, "organization": organization})
+
     return response.Response({"detail": "Member was removed."})
 
   def get_serializer_class(self):

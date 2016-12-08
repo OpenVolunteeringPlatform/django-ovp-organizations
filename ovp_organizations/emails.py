@@ -73,6 +73,16 @@ class OrganizationMail(BaseMail):
     self.sendEmail('userLeft-toOwner', 'An user has left an organization you own', context)
 
 
+  def sendUserRemoved(self, context={}):
+    """
+    Sent when user is removed from organization
+    """
+    self.__init__(context['organization'], async_mail=self.async_mail, override_receiver=context['user'].email)
+    self.sendEmail('userRemoved-toUser', 'You have have been removed from an organization', context)
+
+    self.__init__(context['organization'], async_mail=self.async_mail, override_receiver=context['organization'].owner.email)
+    self.sendEmail('userRemoved-toOwner', 'You have removed an user from an organization you own', context)
+
   def sendUserJoined(self, context={}):
     """
     Sent when user joins organization

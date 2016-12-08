@@ -331,9 +331,13 @@ class OrganizationLeaveTestCase(TestCase):
 
   def test_can_remove_member(self):
     """ Test it's possible to remove a member """
-    self.client.force_authenticate(self.user)
+    mail.outbox = []
     self.client.force_authenticate(self.user)
     response = self.client.post(reverse("organization-remove-member", ["test-organization"]), {"email": "valid@user.com"}, format="json")
 
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "Member was removed.")
+
+    self.assertTrue(len(mail.outbox) == 2)
+    self.assertTrue(mail.outbox[0].subject == "You have have been removed from an organization")
+    self.assertTrue(mail.outbox[1].subject == "You have removed an user from an organization you own")
