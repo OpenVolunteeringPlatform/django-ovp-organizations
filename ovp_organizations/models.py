@@ -102,3 +102,9 @@ class Organization(models.Model):
   class Meta:
     app_label = 'ovp_organizations'
     verbose_name = 'organization'
+
+
+class OrganizationInvite(models.Model):
+  organization = models.ForeignKey("ovp_organizations.Organization")
+  invitator = models.ForeignKey("ovp_users.User", related_name="has_invited")
+  invited = models.ForeignKey("ovp_users.User", related_name="been_invited")

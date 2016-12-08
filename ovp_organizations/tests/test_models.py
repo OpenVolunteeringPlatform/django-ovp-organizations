@@ -3,8 +3,6 @@ from django.test import TestCase
 from ovp_organizations.models import Organization
 from ovp_users.models import User
 
-print('not working')
-
 class OrganizationModelTestCase(TestCase):
   def setUp(self):
     user = User.objects.create_user(email="testemail@email.com", password="test_returned")

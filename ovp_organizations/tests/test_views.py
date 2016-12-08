@@ -4,7 +4,7 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
 from ovp_users.models import User
-from ovp_organizations.models import Organization
+from ovp_organizations.models import Organization, OrganizationInvite
 
 import copy
 
@@ -72,3 +72,96 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(response.data["slug"] == "test-organization")
     self.assertTrue(response.data["details"] == data["details"])
     self.assertTrue(response.data["description"] == data["description"])
+
+
+class OrganizationInviteTestCase(TestCase):
+  def setUp(self):
+    user = User.objects.create_user(email="testemail@email.com", password="test_returned")
+    user.save()
+    self.user = user
+
+    user2 = User.objects.create_user(email="valid@user.com", password="test_returned")
+    user2.save()
+    self.user2 = user2
+
+    organization = Organization(name="test organization", slug="test-organization", owner=user, type=0, published=True)
+    organization.save()
+    self.organization = organization
+    self.client = APIClient()
+    self.client.force_authenticate(user)
+
+
+  def test_cant_invite_invalid_email(self):
+    """ Test serializer does not allow invalid emails """
+    response = self.client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "invalidemail"}, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["email"] == ["Enter a valid email address."])
+
+  def test_cant_invite_valid_email_but_invalid_user(self):
+    """ Test serializer does not allow invalid user """
+    response = self.client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "invalid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["email"] == ["This user is not valid."])
+
+  def test_cant_invite_already_invited(self):
+    """ Test serializer does not allow multiple invites to user """
+    self.test_can_invite_user()
+    response = self.client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["email"] == ["This user is already invited to this organization."])
+
+  def test_can_invite_user(self):
+    """ Test it's possible to invite user """
+    self.assertTrue(OrganizationInvite.objects.all().count() == 0)
+    response = self.client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 200)
+    self.assertTrue(response.data["detail"] == "User invited.")
+
+    self.assertTrue(OrganizationInvite.objects.all().count() == 1)
+    invite = OrganizationInvite.objects.last()
+    self.assertTrue(invite.invitator == self.user)
+    self.assertTrue(invite.invited == self.user2)
+
+  def test_cant_invite_unauthenticated(self):
+    """ Test it's not possible to invite user if not authenticated """
+    client = APIClient()
+    response = client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 401)
+    self.assertTrue(response.data["detail"] == "Authentication credentials were not provided.")
+
+  def test_cant_invite_if_not_owner_or_member(self):
+    """ Test it's not possible to invite user if not a member of organization """
+    client = APIClient()
+    client.force_authenticate(self.user2)
+    response = client.post(reverse("organization-invite-user", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 403)
+    self.assertTrue(response.data["detail"] == "You do not have permission to perform this action.")
+
+
+  def test_cant_join_unauthenticated(self):
+    """ Test it's not possible to join organization if not authenticated """
+    client = APIClient()
+    response = client.post(reverse("organization-join", ["test-organization"]), {}, format="json")
+    self.assertTrue(response.status_code == 401)
+    self.assertTrue(response.data["detail"] == "Authentication credentials were not provided.")
+
+  def test_cant_join_if_not_invited(self):
+    """ Test it's not possible to join organization if not invited """
+    client = APIClient()
+    client.force_authenticate(self.user2)
+    response = client.post(reverse("organization-join", ["test-organization"]), {}, format="json")
+    self.assertTrue(response.status_code == 403)
+    self.assertTrue(response.data["detail"] == "You do not have permission to perform this action.")
+
+  def test_can_join_if_invited(self):
+    """ Test it's possible to join organization if invited """
+    self.test_can_invite_user()
+    self.assertTrue(self.user2 not in self.organization.members.all())
+
+    client = APIClient()
+    client.force_authenticate(self.user2)
+    response = client.post(reverse("organization-join", ["test-organization"]), {}, format="json")
+    self.assertTrue(response.status_code == 200)
+    self.assertTrue(response.data["detail"] == "Joined organization.")
+    self.assertTrue(self.user2 in self.organization.members.all())
+

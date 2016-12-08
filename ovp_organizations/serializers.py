@@ -4,9 +4,11 @@ from ovp_core import validators as core_validators
 from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
 
 from ovp_organizations import models
+from ovp_organizations import validators
 
 from rest_framework import serializers
 from rest_framework import permissions
+from rest_framework import fields
 
 class OrganizationCreateSerializer(serializers.ModelSerializer):
   address = GoogleAddressSerializer(
@@ -43,3 +45,9 @@ class OrganizationRetrieveSerializer(serializers.ModelSerializer):
   class Meta:
     model = models.Organization
     fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+
+class OrganizationInviteSerializer(serializers.Serializer):
+  email = fields.EmailField(validators=[validators.invite_email_validator])
+
+  class Meta:
+    fields = ['email']
