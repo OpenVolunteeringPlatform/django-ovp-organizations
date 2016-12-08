@@ -229,11 +229,25 @@ class OrganizationInviteTestCase(TestCase):
   def test_can_revoke_invite(self):
     """ Test it's possible to revoke invitation """
     self.test_can_invite_user()
+
+    mail.outbox = []
+    self.assertTrue(len(mail.outbox) == 0)
     self.assertTrue(OrganizationInvite.objects.all().count() == 2)
     response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "valid@user.com"}, format="json")
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "Invite has been revoked.")
     self.assertTrue(OrganizationInvite.objects.all().count() == 1)
+
+    self.assertTrue(mail.outbox[0].subject == "Your invitation to an organization has been revoked")
+    self.assertTrue(mail.outbox[1].subject == "You have revoked an user invitation")
+
+    mail.outbox = []
+    self.client.force_authenticate(User.objects.get(email="third@user.com"))
+    response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "fourth@user.com"}, format="json")
+
+    self.assertTrue(mail.outbox[0].subject == "Your invitation to an organization has been revoked")
+    self.assertTrue(mail.outbox[1].subject == "An invitation to join your organization has been revoked")
+    self.assertTrue(mail.outbox[2].subject == "You have revoked an user invitation")
 
 
 class OrganizationLeaveTestCase(TestCase):

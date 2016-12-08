@@ -74,6 +74,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     except models.OrganizationInvite.DoesNotExist:
       return response.Response({"detail": "This user is not invited to this organization."}, status=400)
 
+    organization.mailing().sendUserInvitationRevoked(context={"invite": invite})
     invite.delete()
 
     return response.Response({"detail": "Invite has been revoked."})

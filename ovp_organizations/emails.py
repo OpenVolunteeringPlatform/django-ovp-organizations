@@ -43,6 +43,24 @@ class OrganizationMail(BaseMail):
       self.__init__(context['invite'].organization, async_mail=self.async_mail, override_receiver=context['invite'].invitator.email)
       self.sendEmail('userInvited-toInviter', 'You invited a member to an organization you are part of', context)
 
+  def sendUserInvitationRevoked(self, context={}):
+    """
+    Sent when user is invitation is revoked
+    """
+    # invited user email
+    self.__init__(context['invite'].organization, async_mail=self.async_mail, override_receiver=context['invite'].invited.email)
+    self.sendEmail('userInvitedRevoked-toUser', 'Your invitation to an organization has been revoked', context)
+
+    if context['invite'].organization.owner == context['invite'].invitator:
+      self.__init__(context['invite'].organization, async_mail=self.async_mail, override_receiver=context['invite'].organization.owner.email)
+      self.sendEmail('userInvitedRevoked-toInviter', 'You have revoked an user invitation', context)
+    else:
+      self.__init__(context['invite'].organization, async_mail=self.async_mail, override_receiver=context['invite'].organization.owner.email)
+      self.sendEmail('userInvitedRevoked-toOwner', 'An invitation to join your organization has been revoked', context)
+
+      self.__init__(context['invite'].organization, async_mail=self.async_mail, override_receiver=context['invite'].invitator.email)
+      self.sendEmail('userInvitedRevoked-toInviter', 'You have revoked an user invitation', context)
+
 
   def sendUserLeft(self, context={}):
     """
