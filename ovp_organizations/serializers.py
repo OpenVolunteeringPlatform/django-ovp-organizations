@@ -51,3 +51,9 @@ class OrganizationInviteSerializer(serializers.Serializer):
 
   class Meta:
     fields = ['email']
+
+class MemberRemoveSerializer(serializers.Serializer):
+  email = fields.EmailField(validators=[validators.invite_email_validator])
+
+  class Meta:
+    fields = ['email']

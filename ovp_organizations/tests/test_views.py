@@ -184,7 +184,7 @@ class OrganizationInviteTestCase(TestCase):
     """ Test it's not possible to revoke invitation if user does not exist """
     response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "invalid@user.com"}, format="json")
     self.assertTrue(response.status_code == 400)
-    self.assertTrue(response.data["detail"] == "This user is not valid.")
+    self.assertTrue(response.data["email"] == ["This user is not valid."])
 
   def test_cant_revoke_if_invite_does_not_exist(self):
     """ Test it's not possible to revoke invitation if invitation does not exist """
@@ -200,3 +200,86 @@ class OrganizationInviteTestCase(TestCase):
     self.assertTrue(response.status_code == 200)
     self.assertTrue(response.data["detail"] == "Invite has been revoked.")
     self.assertTrue(OrganizationInvite.objects.all().count() == 0)
+
+
+class OrganizationLeaveTestCase(TestCase):
+  def setUp(self):
+    user = User.objects.create_user(email="testemail@email.com", password="test_returned")
+    user.save()
+    self.user = user
+
+    user2 = User.objects.create_user(email="valid@user.com", password="test_returned")
+    user2.save()
+    self.user2 = user2
+
+    organization = Organization(name="test organization", slug="test-organization", owner=user, type=0, published=True)
+    organization.save()
+    organization.members.add(user2)
+    self.organization = organization
+    self.client = APIClient()
+
+  def test_cant_leave_organization_if_unauthenticated(self):
+    """ Test it's not possible to leave the organization if user is not authenticated """
+    response = self.client.post(reverse("organization-leave", ["test-organization"]), {}, format="json")
+
+    self.assertTrue(response.status_code == 401)
+    self.assertTrue(response.data["detail"] == "Authentication credentials were not provided.")
+
+  def test_cant_leave_organization_if_not_member(self):
+    """ Test it's not possible to leave the organization if user is not member """
+    user = User.objects.create_user(email="not@member.com", password="test_returned")
+    self.client.force_authenticate(user)
+    response = self.client.post(reverse("organization-leave", ["test-organization"]), {}, format="json")
+
+    self.assertTrue(response.status_code == 403)
+    self.assertTrue(response.data["detail"] == "You do not have permission to perform this action.")
+
+  def test_cant_leave_organization_if_owner(self):
+    """ Test it's not possible to leave the organization if user is not owner """
+    self.client.force_authenticate(self.user)
+    response = self.client.post(reverse("organization-leave", ["test-organization"]), {}, format="json")
+
+    self.assertTrue(response.status_code == 403)
+    self.assertTrue(response.data["detail"] == "You do not have permission to perform this action.")
+
+  def test_can_leave_organization(self):
+    """ Test it's possible to leave the organization """
+    self.assertTrue(self.user2 in self.organization.members.all())
+    self.client.force_authenticate(self.user2)
+    response = self.client.post(reverse("organization-leave", ["test-organization"]), {}, format="json")
+
+    self.assertTrue(response.status_code == 200)
+    self.assertTrue(response.data["detail"] == "You've left the organization.")
+    self.assertTrue(self.user2 not in self.organization.members.all())
+
+  def test_cant_remove_member_if_unauthenticated(self):
+    """ Test it's not possible to remove a member while unauthenticated """
+    response = self.client.post(reverse("organization-remove-member", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+
+    self.assertTrue(response.status_code == 401)
+    self.assertTrue(response.data["detail"] == "Authentication credentials were not provided.")
+
+  def test_cant_remove_member_if_not_owner(self):
+    """ Test it's not possible to remove a member if not the owner """
+    self.client.force_authenticate(self.user2)
+    response = self.client.post(reverse("organization-remove-member", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+
+    self.assertTrue(response.status_code == 403)
+    self.assertTrue(response.data["detail"] == "You do not have permission to perform this action.")
+
+  def test_cant_remove_member_if_not_member(self):
+    """ Test it's not possible to remove a member if the user is not a member """
+    self.client.force_authenticate(self.user)
+    response = self.client.post(reverse("organization-remove-member", ["test-organization"]), {"email": "invalid@user.com"}, format="json")
+
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["email"] == ["This user is not valid."])
+
+  def test_can_remove_member(self):
+    """ Test it's possible to remove a member """
+    self.client.force_authenticate(self.user)
+    self.client.force_authenticate(self.user)
+    response = self.client.post(reverse("organization-remove-member", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+
+    self.assertTrue(response.status_code == 200)
+    self.assertTrue(response.data["detail"] == "Member was removed.")

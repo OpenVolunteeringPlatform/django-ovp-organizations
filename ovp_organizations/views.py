@@ -65,13 +65,33 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
         user = User.objects.get(email=request.data.get("email", ""))
         invite = models.OrganizationInvite.objects.get(invited=user, organization=organization)
       except User.DoesNotExist:
-        return response.Response({"detail": "This user is not valid."}, status=400)
+        return response.Response({"email": ["This user is not valid."]}, status=400)
     except models.OrganizationInvite.DoesNotExist:
       return response.Response({"detail": "This user is not invited to this organization."}, status=400)
 
     invite.delete()
 
     return response.Response({"detail": "Invite has been revoked."})
+
+  @decorators.detail_route(methods=["POST"])
+  def leave(self, request, *args, **kwargs):
+    organization = self.get_object()
+    organization.members.remove(request.user)
+
+    return response.Response({"detail": "You've left the organization."})
+
+  @decorators.detail_route(methods=["POST"])
+  def remove_member(self, request, *args, **kwargs):
+    organization = self.get_object()
+
+    try:
+      user = organization.members.get(email=request.data.get("email", ""))
+    except User.DoesNotExist:
+      return response.Response({"email": ["This user is not valid."]}, status=400)
+
+    organization.members.remove(user)
+
+    return response.Response({"detail": "Member was removed."})
 
   def get_serializer_class(self):
     request = self.get_serializer_context()['request']
@@ -81,6 +101,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
       return serializers.OrganizationRetrieveSerializer
     if self.action in ['invite_user', 'revoke_invite']:
       return serializers.OrganizationInviteSerializer
+    if self.action == 'remove_member':
+      return serializers.MemberRemoveSerializer
 
 
   def get_permissions(self):
@@ -93,6 +115,10 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
       self.permission_classes = (permissions.IsAuthenticated, organization_permissions.OwnsOrIsOrganizationMember)
     if self.action == 'join':
       self.permission_classes = (permissions.IsAuthenticated, organization_permissions.IsInvitedToOrganization)
+    if self.action == 'leave':
+      self.permission_classes = (permissions.IsAuthenticated, organization_permissions.IsOrganizationMember)
+    if self.action == 'remove_member':
+      self.permission_classes = (permissions.IsAuthenticated, organization_permissions.OwnsOrganization)
 
     return super(OrganizationResourceViewSet, self).get_permissions()
 
