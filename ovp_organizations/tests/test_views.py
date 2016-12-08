@@ -165,3 +165,38 @@ class OrganizationInviteTestCase(TestCase):
     self.assertTrue(response.data["detail"] == "Joined organization.")
     self.assertTrue(self.user2 in self.organization.members.all())
 
+  def test_cant_revoke_if_unauthenticated(self):
+    """ Test it's not possible to revoke invitation if not authenticated"""
+    client = APIClient()
+    response = client.post(reverse("organization-revoke-invite", ["test-organization"]), {}, format="json")
+    self.assertTrue(response.status_code == 401)
+    self.assertTrue(response.data["detail"] == "Authentication credentials were not provided.")
+
+  def test_cant_revoke_if_not_owner_or_member(self):
+    """ Test it's not possible to revoke invitation if not owner or member """
+    client = APIClient()
+    client.force_authenticate(self.user2)
+    response = client.post(reverse("organization-revoke-invite", ["test-organization"]), {}, format="json")
+    self.assertTrue(response.status_code == 403)
+    self.assertTrue(response.data["detail"] == "You do not have permission to perform this action.")
+
+  def test_cant_revoke_if_user_does_not_exist(self):
+    """ Test it's not possible to revoke invitation if user does not exist """
+    response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "invalid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["detail"] == "This user is not valid.")
+
+  def test_cant_revoke_if_invite_does_not_exist(self):
+    """ Test it's not possible to revoke invitation if invitation does not exist """
+    response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 400)
+    self.assertTrue(response.data["detail"] == "This user is not invited to this organization.")
+
+  def test_can_revoke_invite(self):
+    """ Test it's possible to revoke invitation """
+    self.test_can_invite_user()
+    self.assertTrue(OrganizationInvite.objects.all().count() == 1)
+    response = self.client.post(reverse("organization-revoke-invite", ["test-organization"]), {"email": "valid@user.com"}, format="json")
+    self.assertTrue(response.status_code == 200)
+    self.assertTrue(response.data["detail"] == "Invite has been revoked.")
+    self.assertTrue(OrganizationInvite.objects.all().count() == 0)

@@ -49,7 +49,6 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     invite.save()
     return response.Response({"detail": "User invited."})
 
-
   @decorators.detail_route(methods=["POST"])
   def join(self, request, *args, **kwargs):
     organization = self.get_object()
@@ -57,13 +56,30 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
     return response.Response({"detail": "Joined organization."})
 
+  @decorators.detail_route(methods=["POST"])
+  def revoke_invite(self, request, *args, **kwargs):
+    organization = self.get_object()
+
+    try:
+      try:
+        user = User.objects.get(email=request.data.get("email", ""))
+        invite = models.OrganizationInvite.objects.get(invited=user, organization=organization)
+      except User.DoesNotExist:
+        return response.Response({"detail": "This user is not valid."}, status=400)
+    except models.OrganizationInvite.DoesNotExist:
+      return response.Response({"detail": "This user is not invited to this organization."}, status=400)
+
+    invite.delete()
+
+    return response.Response({"detail": "Invite has been revoked."})
+
   def get_serializer_class(self):
     request = self.get_serializer_context()['request']
     if self.action == 'create':
       return serializers.OrganizationCreateSerializer
     if self.action == 'retrieve':
       return serializers.OrganizationRetrieveSerializer
-    if self.action == 'invite_user':
+    if self.action in ['invite_user', 'revoke_invite']:
       return serializers.OrganizationInviteSerializer
 
 
@@ -73,7 +89,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
       self.permission_classes = (permissions.IsAuthenticated,)
     if self.action == 'retrieve':
       self.permission_classes = ()
-    if self.action == 'invite_user':
+    if self.action in ['invite_user', 'revoke_invite']:
       self.permission_classes = (permissions.IsAuthenticated, organization_permissions.OwnsOrIsOrganizationMember)
     if self.action == 'join':
       self.permission_classes = (permissions.IsAuthenticated, organization_permissions.IsInvitedToOrganization)
