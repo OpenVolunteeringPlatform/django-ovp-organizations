@@ -39,3 +39,5 @@ v0.1.7
 * Implement slug field on Organization
 * Rename .published_at, .modified_at, .deleted_at, .created_at to .published_date, .modified_date, .deleted_date, .created_date
 * Update test suite coverage to 100%
+* Add invite, revoke invite, join, leave and remove member routes and emails
+* Add image and cover do organization
