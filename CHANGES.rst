@@ -45,3 +45,7 @@ v0.1.7
 v0.1.8
 -----------
 * Include templates on package
+
+v1.0.0
+-----------
+* Implement organization patch routes

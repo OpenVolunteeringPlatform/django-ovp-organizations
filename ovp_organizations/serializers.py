@@ -11,6 +11,8 @@ from ovp_organizations import validators
 from rest_framework import serializers
 from rest_framework import permissions
 from rest_framework import fields
+from rest_framework.compat import set_many
+from rest_framework.utils import model_meta
 
 class OrganizationCreateSerializer(serializers.ModelSerializer):
   address = GoogleAddressSerializer(
@@ -33,6 +35,27 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
     # Organization
     organization = models.Organization.objects.create(**validated_data)
     return organization
+
+  def update(self, instance, validated_data):
+    address_data = validated_data.pop('address', None)
+
+    # Iterate and save fields as drf default
+    info = model_meta.get_field_info(instance)
+    for attr, value in validated_data.items():
+      if attr in info.relations and info.relations[attr].to_many: # pragma: no cover
+        set_many(instance, attr, value)
+      else:
+        setattr(instance, attr, value)
+
+    # Save related resources
+    if address_data:
+      address_sr = GoogleAddressSerializer(data=address_data)
+      address = address_sr.create(address_data)
+      instance.address = address
+
+    instance.save()
+
+    return instance
 
 class OrganizationSearchSerializer(serializers.ModelSerializer):
   address = GoogleAddressCityStateSerializer()

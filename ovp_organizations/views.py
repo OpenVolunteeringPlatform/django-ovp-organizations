@@ -30,6 +30,19 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
   lookup_field = 'slug'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
+  def partial_update(self, request, *args, **kwargs):
+    """ We do not include the mixin as we want only PATCH and no PUT """
+    instance = self.get_object()
+    serializer = self.get_serializer(instance, data=request.data, partial=True)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+
+    if getattr(instance, '_prefetched_objects_cache', None): #pragma: no cover
+      instance = self.get_object()
+      serializer = self.get_serializer(instance)
+
+    return response.Response(serializer.data)
+
   @decorators.detail_route(methods=["POST"])
   def invite_user(self, request, *args, **kwargs):
     organization = self.get_object()
@@ -106,7 +119,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
   def get_serializer_class(self):
     request = self.get_serializer_context()['request']
-    if self.action == 'create':
+    if self.action in ['create', 'partial_update']:
       return serializers.OrganizationCreateSerializer
     if self.action == 'retrieve':
       return serializers.OrganizationRetrieveSerializer
@@ -120,6 +133,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     request = self.get_serializer_context()['request']
     if self.action == 'create':
       self.permission_classes = (permissions.IsAuthenticated,)
+    if self.action == 'partial_update':
+      self.permission_classes = (permissions.IsAuthenticated, organization_permissions.OwnsOrIsOrganizationMember)
     if self.action == 'retrieve':
       self.permission_classes = ()
     if self.action in ['invite_user', 'revoke_invite']:

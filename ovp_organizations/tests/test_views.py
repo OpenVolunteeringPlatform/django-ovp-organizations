@@ -76,6 +76,23 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue("image" in response.data)
     self.assertTrue("cover" in response.data)
 
+  def test_can_update_organization(self):
+    """ Assert it's possible to update an organization """
+    self.test_can_create_organization()
+    organization = Organization.objects.last()
+
+    client = APIClient()
+    client.force_authenticate(user=User.objects.last())
+
+    data = {"name": "updated name", "slug": "updated-slug", "details": "updated details", "description": "updated description", "address": {"typed_address": "campinas, sp"}}
+
+    response = client.patch(reverse("organization-detail", ["test-organization"]), data, format="json")
+    self.assertTrue(response.status_code == 200)
+    self.assertTrue(response.data["name"] == data["name"])
+    self.assertTrue(response.data["slug"] == data["slug"])
+    self.assertTrue(response.data["details"] == data["details"])
+    self.assertTrue(response.data["description"] == data["description"])
+
 
 class OrganizationInviteTestCase(TestCase):
   def setUp(self):
