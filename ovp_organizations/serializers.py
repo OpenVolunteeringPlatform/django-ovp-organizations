@@ -1,5 +1,7 @@
 from django.core.exceptions import ValidationError
 
+from ovp_uploads.serializers import UploadedImageSerializer
+
 from ovp_core import validators as core_validators
 from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
 
@@ -18,7 +20,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover']
 
   def create(self, validated_data):
     # Address
@@ -34,17 +36,20 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
 class OrganizationSearchSerializer(serializers.ModelSerializer):
   address = GoogleAddressCityStateSerializer()
+  image = UploadedImageSerializer()
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image']
 
 class OrganizationRetrieveSerializer(serializers.ModelSerializer):
   address = GoogleAddressCityStateSerializer()
+  image = UploadedImageSerializer()
+  cover = UploadedImageSerializer()
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover']
 
 class OrganizationInviteSerializer(serializers.Serializer):
   email = fields.EmailField(validators=[validators.invite_email_validator])

@@ -16,6 +16,7 @@ class Organization(models.Model):
   owner = models.ForeignKey('ovp_users.User')
   address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True)
   image = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True)
+  cover = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name="+")
   causes = models.ManyToManyField('ovp_core.Cause')
   members = models.ManyToManyField('ovp_users.User', related_name="organizations_member")
 
