@@ -7,12 +7,12 @@ from django.db import migrations
 from ovp_organizations.models import Organization
 
 def add_members(apps, schema_editor):
-  for organization in Organization.objects.all():
+  for organization in Organization.objects.only('pk', 'members').all():
     organization.members.add(organization.owner)
 
 
 def remove_members(apps, schema_editor):
-  for organization in Organization.objects.all():
+  for organization in Organization.objects.only('pk', 'members').all():
     organization.members.clear()
 
 
