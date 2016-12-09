@@ -10,7 +10,7 @@ class OwnsOrIsOrganizationMember(permissions.BasePermission):
       if request.user in obj.members.all():
         return True
       raise exceptions.PermissionDenied() #403
-    return False #401
+    return False #401 #pragma: no cover
 
 class OwnsOrganization(permissions.BasePermission):
   def has_object_permission(self, request, view, obj):
@@ -18,7 +18,7 @@ class OwnsOrganization(permissions.BasePermission):
       if obj.owner == request.user:
         return True
       raise exceptions.PermissionDenied() #403
-    return False #401
+    return False #401 #pragma: no cover
 
 class IsOrganizationMember(permissions.BasePermission):
   def has_object_permission(self, request, view, obj):
@@ -26,7 +26,7 @@ class IsOrganizationMember(permissions.BasePermission):
       if request.user in obj.members.all():
         return True
       raise exceptions.PermissionDenied() #403
-    return False #401
+    return False #401 #pragma: no cover
 
 class IsInvitedToOrganization(permissions.BasePermission):
   def has_object_permission(self, request, view, obj):
@@ -36,4 +36,4 @@ class IsInvitedToOrganization(permissions.BasePermission):
         return True
       except OrganizationInvite.DoesNotExist:
         raise exceptions.PermissionDenied() #403
-    return False #401
+    return False #401 #pragma: no cover

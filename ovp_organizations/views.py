@@ -91,6 +91,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
   @decorators.detail_route(methods=["POST"])
   def remove_member(self, request, *args, **kwargs):
     organization = self.get_object()
+    serializer = self.get_serializer_class()
 
     try:
       user = organization.members.get(email=request.data.get("email", ""))
