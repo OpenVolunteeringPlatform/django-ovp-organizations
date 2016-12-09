@@ -41,3 +41,7 @@ v0.1.7
 * Update test suite coverage to 100%
 * Add invite, revoke invite, join, leave and remove member routes and emails
 * Add image and cover do organization
+
+v0.1.8
+-----------
+* Include templates on package

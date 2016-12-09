@@ -8,6 +8,7 @@ setup(
     author=u'Atados',
     author_email='arroyo@atados.com.br',
     packages=find_packages(),
+    include_package_data=True,
     url='https://github.com/OpenVolunteeringPlatform/django-ovp-organizations',
     download_url = 'https://github.com/OpenVolunteeringPlatform/django-ovp-organizations/tarball/0.1.7',
     license='AGPL',
