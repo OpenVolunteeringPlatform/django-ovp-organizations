@@ -63,7 +63,7 @@ class OrganizationSearchSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image']
 
 class OrganizationRetrieveSerializer(serializers.ModelSerializer):
   address = GoogleAddressCityStateSerializer()

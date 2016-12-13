@@ -57,3 +57,7 @@ v1.0.1
 v1.0.2
 -----------
 * Fix RecursionError on migration 0008
+
+v1.0.3
+-----------
+* Add id to OrganizationSearchSerializer
