@@ -49,3 +49,7 @@ v0.1.8
 v1.0.0
 -----------
 * Implement organization patch routes
+
+v1.0.1
+-----------
+* Fix install_requires
