@@ -53,3 +53,7 @@ v1.0.0
 v1.0.1
 -----------
 * Fix install_requires
+
+v1.0.2
+-----------
+* Fix RecursionError on migration 0008
