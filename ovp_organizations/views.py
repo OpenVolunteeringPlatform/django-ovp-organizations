@@ -1,5 +1,7 @@
 from ovp_users.models import User
 
+from ovp_core.serializers import EmptySerializer
+
 from ovp_organizations import serializers
 from ovp_organizations import models
 from ovp_organizations import permissions as organization_permissions
@@ -127,6 +129,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
       return serializers.OrganizationInviteSerializer
     if self.action == 'remove_member':
       return serializers.MemberRemoveSerializer
+    if self.action in ['leave', 'join']:
+      return EmptySerializer
 
 
   def get_permissions(self):
