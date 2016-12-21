@@ -73,6 +73,7 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(response.data["slug"] == "test-organization")
     self.assertTrue(response.data["details"] == data["details"])
     self.assertTrue(response.data["description"] == data["description"])
+    self.assertTrue(response.data["published"] == False)
     self.assertTrue("image" in response.data)
     self.assertTrue("cover" in response.data)
 

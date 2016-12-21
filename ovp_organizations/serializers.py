@@ -72,7 +72,7 @@ class OrganizationRetrieveSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published']
 
 class OrganizationInviteSerializer(serializers.Serializer):
   email = fields.EmailField(validators=[validators.invite_email_validator])

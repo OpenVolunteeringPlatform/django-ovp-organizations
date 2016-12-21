@@ -61,3 +61,7 @@ v1.0.2
 v1.0.3
 -----------
 * Add id to OrganizationSearchSerializer
+
+v1.0.4
+-----------
+* Add 'published' to OrganizationRetrieveSerializer
