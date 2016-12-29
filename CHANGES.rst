@@ -69,3 +69,4 @@ v1.0.4
 
 v1.0.5[unreleased]
 -----------
+* Update test suite to allow the module to be tested inside a django project

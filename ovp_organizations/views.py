@@ -16,14 +16,7 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 
-#POST, PUT, PATCH -> /public-profile
-#-criar perfil publico
-#-editar perfil publico
-#-convidar outro usuario pra organização
-#-sair da organização
-#-email
-#
-#GET -> /public-profile/:pk
+
 class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
   """
   OrganizationResourceViewSet resource endpoint
@@ -129,7 +122,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
       return serializers.OrganizationInviteSerializer
     if self.action == 'remove_member':
       return serializers.MemberRemoveSerializer
-    if self.action in ['leave', 'join']:
+    if self.action in ['leave', 'join']: # pragma: no cover
       return EmptySerializer
 
 
