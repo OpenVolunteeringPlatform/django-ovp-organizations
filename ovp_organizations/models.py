@@ -15,21 +15,21 @@ ORGANIZATION_TYPES = (
 
 class Organization(models.Model):
   # Relationships
-  owner = models.ForeignKey('ovp_users.User')
-  address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True)
-  image = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True)
-  cover = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name="+")
+  owner = models.ForeignKey('ovp_users.User', verbose_name=_('owner'))
+  address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True, verbose_name=_('address'))
+  image = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, verbose_name=_('image'))
+  cover = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name="+", verbose_name=_('cover'))
   causes = models.ManyToManyField('ovp_core.Cause', verbose_name=_('causes'), blank=True)
   members = models.ManyToManyField('ovp_users.User', verbose_name=_('members'), related_name="organizations_member")
 
   # Fields
-  slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
-  name = models.CharField('Name', max_length=150)
-  website = models.URLField(blank=True, null=True, default=None)
-  facebook_page = models.CharField(max_length=255, blank=True, null=True, default=None)
-  type = models.PositiveSmallIntegerField('Type', choices=ORGANIZATION_TYPES)
-  details = models.CharField('Details', max_length=3000, blank=True, null=True, default=None)
-  description = models.CharField('Short description', max_length=160, blank=True, null=True)
+  slug = models.SlugField(_('Slug'), max_length=100, unique=True, blank=True, null=True)
+  name = models.CharField(_('Name'), max_length=150)
+  website = models.URLField(_('Website'), blank=True, null=True, default=None)
+  facebook_page = models.CharField(_('Facebook'), max_length=255, blank=True, null=True, default=None)
+  type = models.PositiveSmallIntegerField(_('Type'), choices=ORGANIZATION_TYPES)
+  details = models.CharField(_('Details'), max_length=3000, blank=True, null=True, default=None)
+  description = models.CharField(_('Short description'), max_length=160, blank=True, null=True)
 
   # Meta
   highlighted = models.BooleanField(_('Highlighted'), default=False, blank=False)
@@ -37,8 +37,8 @@ class Organization(models.Model):
   published_date = models.DateTimeField(_('Published date'), blank=True, null=True)
   deleted = models.BooleanField(_('Deleted'), default=False)
   deleted_date = models.DateTimeField(_('Deleted date'), blank=True, null=True)
-  created_date = models.DateTimeField(auto_now_add=True)
-  modified_date = models.DateTimeField(auto_now=True)
+  created_date = models.DateTimeField(_('Created date'), auto_now_add=True)
+  modified_date = models.DateTimeField(_('Modified date'), auto_now=True)
 
 
   def __init__(self, *args, **kwargs):
@@ -49,18 +49,10 @@ class Organization(models.Model):
   def __str__(self):
     return self.name
 
-
   def delete(self, *args, **kwargs):
     self.deleted = True
     self.published = False
     self.save()
-
-  #+- def image_name(self, filename):
-  #+-   return NonprofitHelper.nonprofit_image_name(self, filename);
-
-  #-+-def get_projects(self, deleted=False):
-  #-+-  return Project.objects.filter(nonprofit=self, deleted=deleted)
-
 
   def mailing(self):
     return OrganizationMail(self)
@@ -87,7 +79,6 @@ class Organization(models.Model):
 
     return super(Organization, self).save(*args, **kwargs)
 
-
   def generate_slug(self):
     if self.name:
       slug = slugify(self.name)[0:99]
@@ -104,10 +95,14 @@ class Organization(models.Model):
 
   class Meta:
     app_label = 'ovp_organizations'
-    verbose_name = 'organization'
+    verbose_name = _('organization')
 
 
 class OrganizationInvite(models.Model):
   organization = models.ForeignKey("ovp_organizations.Organization")
   invitator = models.ForeignKey("ovp_users.User", related_name="has_invited")
   invited = models.ForeignKey("ovp_users.User", related_name="been_invited")
+
+  class Meta:
+    app_label = 'ovp_organizations'
+    verbose_name = _('organization_invite')
