@@ -4,11 +4,13 @@ from django.template.defaultfilters import slugify
 
 from ovp_organizations.emails import OrganizationMail
 
+from django.utils.translation import ugettext_lazy as _
+
 ORGANIZATION_TYPES = (
-  (0, 'Organization'),
-  (1, 'School'),
-  (2, 'Company'),
-  (3, 'Group of volunteers'),
+  (0, _('Organization')),
+  (1, _('School')),
+  (2, _('Company')),
+  (3, _('Group of volunteers')),
 )
 
 class Organization(models.Model):
@@ -17,24 +19,24 @@ class Organization(models.Model):
   address = models.OneToOneField('ovp_core.GoogleAddress', blank=True, null=True)
   image = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True)
   cover = models.ForeignKey('ovp_uploads.UploadedImage', blank=False, null=True, related_name="+")
-  causes = models.ManyToManyField('ovp_core.Cause')
-  members = models.ManyToManyField('ovp_users.User', related_name="organizations_member")
+  causes = models.ManyToManyField('ovp_core.Cause', verbose_name=_('causes'), blank=True)
+  members = models.ManyToManyField('ovp_users.User', verbose_name=_('members'), related_name="organizations_member")
 
   # Fields
   slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
   name = models.CharField('Name', max_length=150)
   website = models.URLField(blank=True, null=True, default=None)
   facebook_page = models.CharField(max_length=255, blank=True, null=True, default=None)
-  type = models.PositiveSmallIntegerField("Type", choices=ORGANIZATION_TYPES)
+  type = models.PositiveSmallIntegerField('Type', choices=ORGANIZATION_TYPES)
   details = models.CharField('Details', max_length=3000, blank=True, null=True, default=None)
   description = models.CharField('Short description', max_length=160, blank=True, null=True)
 
   # Meta
-  highlighted = models.BooleanField(("Highlighted"), default=False, blank=False)
-  published = models.BooleanField("Published", default=False)
-  published_date = models.DateTimeField("Published date", blank=True, null=True)
-  deleted = models.BooleanField("Deleted", default=False)
-  deleted_date = models.DateTimeField("Deleted date", blank=True, null=True)
+  highlighted = models.BooleanField(_('Highlighted'), default=False, blank=False)
+  published = models.BooleanField(_('Published'), default=False)
+  published_date = models.DateTimeField(_('Published date'), blank=True, null=True)
+  deleted = models.BooleanField(_('Deleted'), default=False)
+  deleted_date = models.DateTimeField(_('Deleted date'), blank=True, null=True)
   created_date = models.DateTimeField(auto_now_add=True)
   modified_date = models.DateTimeField(auto_now=True)
 
