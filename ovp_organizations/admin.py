@@ -46,6 +46,8 @@ class OrganizationAdmin(admin.ModelAdmin):
   	'owner'
   ]
 
+  filter_horizontal = ('causes', 'members')
+
   def owner__name(self, obj):
     return obj.owner.name
   owner__name.short_description = _("Owner's Name")
