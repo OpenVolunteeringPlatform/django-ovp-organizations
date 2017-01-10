@@ -49,17 +49,26 @@ class OrganizationAdmin(admin.ModelAdmin):
   filter_horizontal = ('causes', 'members')
 
   def owner__name(self, obj):
-    return obj.owner.name
+    if obj.owner:
+      return obj.owner.name
+    else:
+      return _('None')
   owner__name.short_description = _("Owner's Name")
   owner__name.admin_order_field = 'owner__name'
 
   def owner__email(self, obj):
-    return obj.owner.name
+    if obj.owner:
+      return obj.owner.name
+    else:
+      return _('None')
   owner__email.short_description = _("Owner's E-mail")
   owner__email.admin_order_field = 'owner__email'
 
   def owner__phone(self, obj):
-    return obj.owner.phone
+    if obj.owner:
+      return obj.owner.phone
+    else:
+      return _('None')
   owner__phone.short_description = _("Owner's Phone")
   owner__phone.admin_order_field = 'owner__phone'
 
