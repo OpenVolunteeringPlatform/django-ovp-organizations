@@ -4,8 +4,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from ovp_organizations.models import Organization
 
+from ovp_core.mixins import CountryFilterMixin
 
-class OrganizationAdmin(admin.ModelAdmin):
+
+class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
   fields = [
     ('id', 'highlighted'), ('name', 'slug'),
     ('owner'), #- 'type'
@@ -71,6 +73,10 @@ class OrganizationAdmin(admin.ModelAdmin):
       return _('None')
   owner__phone.short_description = _("Owner's Phone")
   owner__phone.admin_order_field = 'owner__phone'
+
+  def get_queryset(self, request):
+    qs = super(OrganizationAdmin, self).get_queryset(request)
+    return self.filter_by_country(request, qs, 'address')
 
 
 admin.site.register(Organization, OrganizationAdmin)

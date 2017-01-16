@@ -71,5 +71,9 @@ v1.0.5
 -----------
 * Update test suite to allow the module to be tested inside a django project
 
-v1.0.6[unreleased]
+v1.0.6
+-----------
+* Add CountryFilterMixin to OrganizationAdmin
+
+v1.0.7[unreleased]
 -----------
