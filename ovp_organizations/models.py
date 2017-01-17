@@ -27,7 +27,7 @@ class Organization(models.Model):
   name = models.CharField(_('Name'), max_length=150)
   website = models.URLField(_('Website'), blank=True, null=True, default=None)
   facebook_page = models.CharField(_('Facebook'), max_length=255, blank=True, null=True, default=None)
-  type = models.PositiveSmallIntegerField(_('Type'), choices=ORGANIZATION_TYPES, default=ORGANIZATION_TYPES[0])
+  type = models.PositiveSmallIntegerField(_('Type'), choices=ORGANIZATION_TYPES, default=0)
   details = models.CharField(_('Details'), max_length=3000, blank=True, null=True, default=None)
   description = models.CharField(_('Short description'), max_length=160, blank=True, null=True)
 
