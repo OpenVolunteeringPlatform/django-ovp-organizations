@@ -60,7 +60,7 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
 
   def owner__email(self, obj):
     if obj.owner:
-      return obj.owner.name
+      return obj.owner.email
     else:
       return _('None')
   owner__email.short_description = _("Owner's E-mail")
