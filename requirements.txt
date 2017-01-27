@@ -1,8 +1,8 @@
 codecov==2.0.5
-coverage==4.2
-Django==1.10.1
+coverage==4.3.4
+Django==1.10.5
 djangorestframework==3.5.3
-python-dateutil==2.5.3
-ovp-users==1.0.20
-ovp-core==1.1.2
-ovp-uploads==1.0.1
+python-dateutil==2.6.0
+ovp-users==1.0.21
+ovp-core==1.2.1
+ovp-uploads==1.0.2
