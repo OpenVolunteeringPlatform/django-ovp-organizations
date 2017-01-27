@@ -27,25 +27,25 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
     ]
 
   list_display = [
-  	'id', 'created_date', 'name', 'owner__email', 'owner__phone', 'address', 'highlighted', 'published', 'deleted', 'modified_date'
+    'id', 'created_date', 'name', 'owner__email', 'owner__phone', 'address', 'highlighted', 'published', 'deleted', 'modified_date'
   ]
 
   list_filter = [
-  	'created_date', 'modified_date', 'highlighted', 'published', 'deleted'
+    'created_date', 'modified_date', 'highlighted', 'published', 'deleted'
   ]
 
   list_editable = [
-  	'highlighted', 'published'
+    'highlighted', 'published'
   ]
 
   search_fields = [
-  	'name', 'owner__email', 'address__addressline', 'description'
+    'name', 'owner__email', 'address__addressline', 'description'
   ]
 
   readonly_fields = ['id', 'created_date', 'modified_date', 'published_date', 'deleted_date']
 
   raw_id_fields = [
-  	'owner'
+    'owner'
   ]
 
   filter_horizontal = ('causes', 'members')
