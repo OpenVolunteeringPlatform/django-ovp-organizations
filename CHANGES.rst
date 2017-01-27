@@ -77,3 +77,5 @@ v1.0.6
 
 v1.0.7[unreleased]
 -----------
+* Add default organization type
+* Add hide_address field to Organization
