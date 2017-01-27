@@ -81,5 +81,9 @@ v1.0.7
 * Add hidden_address field to Organization
 * Use GoogleAddressSerializer instead of GoogleAddressCityStateSerializer on OrganizationRetrieveSerializer
 
-v1.0.8[unreleased]
+v1.0.8
+-----------
+* Upgrade dependencies
+
+v1.0.9[unreleased]
 -----------
