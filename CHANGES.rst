@@ -75,8 +75,11 @@ v1.0.6
 -----------
 * Add CountryFilterMixin to OrganizationAdmin
 
-v1.0.7[unreleased]
+v1.0.7
 -----------
 * Add default organization type
 * Add hidden_address field to Organization
 * Use GoogleAddressSerializer instead of GoogleAddressCityStateSerializer on OrganizationRetrieveSerializer
+
+v1.0.8[unreleased]
+-----------
