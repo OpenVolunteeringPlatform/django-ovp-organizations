@@ -44,6 +44,39 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(user in organization.members.all())
     self.assertTrue(organization.address.typed_address == data["address"]["typed_address"])
 
+  def test_can_hide_organization_address(self):
+    """Assert that it's hide organization address"""
+    owner = User.objects.create_user(email="owner@gmail.com", password="testcancreate")
+    member = User.objects.create_user(email="member@gmail.com", password="testcancreate")
+    volunteer = User.objects.create_user(email="volunteer@gmail.com", password="testcancreate")
+
+    data = copy.copy(base_organization)
+    data['hidden_address'] = True
+
+    client = APIClient()
+    client.force_authenticate(user=owner)
+
+    response = client.post(reverse("organization-list"), data, format="json")
+    organization = Organization.objects.get(pk=response.data["id"])
+    organization.members.add(member)
+
+    # Retrieving as organization owner
+    response = client.get(reverse("organization-detail", ["test-organization"]), format="json")
+    self.assertTrue(response.data["address"]["typed_address"] == data["address"]["typed_address"])
+    self.assertTrue(response.data["hidden_address"] == True)
+
+    # Retrieving as organization member
+    client.force_authenticate(user=member)
+    response = client.get(reverse("organization-detail", ["test-organization"]), format="json")
+    self.assertTrue(response.data["address"]["typed_address"] == data["address"]["typed_address"])
+    self.assertTrue(response.data["hidden_address"] == True)
+
+    # Retrieving as volunteer
+    client.force_authenticate(user=volunteer)
+    response = client.get(reverse("organization-detail", ["test-organization"]), format="json")
+    self.assertTrue(response.data["address"] == None)
+    self.assertTrue(response.data["hidden_address"] == True)
+
   def test_cant_create_organization_empty_name(self):
     """Assert that it's not possible to create a organization with empty name"""
     user = User.objects.create_user(email="test_can_create_organization@gmail.com", password="testcancreate")

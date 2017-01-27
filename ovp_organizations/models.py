@@ -30,7 +30,7 @@ class Organization(models.Model):
   type = models.PositiveSmallIntegerField(_('Type'), choices=ORGANIZATION_TYPES, default=0)
   details = models.CharField(_('Details'), max_length=3000, blank=True, null=True, default=None)
   description = models.CharField(_('Short description'), max_length=160, blank=True, null=True)
-  hide_address = models.BooleanField(_('Hide address'), default=False)
+  hidden_address = models.BooleanField(_('Hidden address'), default=False)
 
   # Meta
   highlighted = models.BooleanField(_('Highlighted'), default=False, blank=False)

@@ -78,4 +78,5 @@ v1.0.6
 v1.0.7[unreleased]
 -----------
 * Add default organization type
-* Add hide_address field to Organization
+* Add hidden_address field to Organization
+* Use GoogleAddressSerializer instead of GoogleAddressCityStateSerializer on OrganizationRetrieveSerializer
