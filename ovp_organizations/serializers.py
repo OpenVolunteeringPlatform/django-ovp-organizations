@@ -7,12 +7,14 @@ from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityState
 
 from ovp_organizations import models
 from ovp_organizations import validators
+from ovp_organizations.decorators import hide_address
 
 from rest_framework import serializers
 from rest_framework import permissions
 from rest_framework import fields
 from rest_framework.compat import set_many
 from rest_framework.utils import model_meta
+
 
 class OrganizationCreateSerializer(serializers.ModelSerializer):
   address = GoogleAddressSerializer(
@@ -22,7 +24,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address']
 
   def create(self, validated_data):
     # Address
@@ -66,13 +68,18 @@ class OrganizationSearchSerializer(serializers.ModelSerializer):
     fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image']
 
 class OrganizationRetrieveSerializer(serializers.ModelSerializer):
-  address = GoogleAddressCityStateSerializer()
+  address = GoogleAddressSerializer()
   image = UploadedImageSerializer()
   cover = UploadedImageSerializer()
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published', 'hidden_address']
+
+  @hide_address
+  def to_representation(self, instance):
+    return super(OrganizationRetrieveSerializer, self).to_representation(instance)
+
 
 class OrganizationInviteSerializer(serializers.Serializer):
   email = fields.EmailField(validators=[validators.invite_email_validator])
