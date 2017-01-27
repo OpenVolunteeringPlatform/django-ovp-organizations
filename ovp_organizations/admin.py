@@ -6,6 +6,9 @@ from ovp_organizations.models import Organization
 
 from ovp_core.mixins import CountryFilterMixin
 
+# This file contains some "pragma: no cover" because the admin
+# class is not covered by the test suite
+
 
 class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
   fields = [
@@ -50,7 +53,7 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
 
   filter_horizontal = ('causes', 'members')
 
-  def owner__name(self, obj):
+  def owner__name(self, obj): #pragma: no cover
     if obj.owner:
       return obj.owner.name
     else:
@@ -58,7 +61,7 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
   owner__name.short_description = _("Owner's Name")
   owner__name.admin_order_field = 'owner__name'
 
-  def owner__email(self, obj):
+  def owner__email(self, obj): #pragma: no cover
     if obj.owner:
       return obj.owner.email
     else:
@@ -66,7 +69,7 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
   owner__email.short_description = _("Owner's E-mail")
   owner__email.admin_order_field = 'owner__email'
 
-  def owner__phone(self, obj):
+  def owner__phone(self, obj): #pragma: no cover
     if obj.owner:
       return obj.owner.phone
     else:
@@ -74,7 +77,7 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
   owner__phone.short_description = _("Owner's Phone")
   owner__phone.admin_order_field = 'owner__phone'
 
-  def get_queryset(self, request):
+  def get_queryset(self, request): #pragma: no cover
     qs = super(OrganizationAdmin, self).get_queryset(request)
     return self.filter_by_country(request, qs, 'address')
 
