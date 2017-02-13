@@ -85,6 +85,6 @@ v1.0.8
 -----------
 * Upgrade dependencies
 
-v1.0.9[unreleased]
+v1.0.9
 -----------
 * Fix hide_address decorator in case Organization.hidden_address == False
