@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.template.defaultfilters import slugify
 
 from ovp_organizations.emails import OrganizationMail
+from ovp_organizations.emails import OrganizationAdminMail
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -58,6 +59,9 @@ class Organization(models.Model):
   def mailing(self):
     return OrganizationMail(self)
 
+  def admin_mailing(self):
+    return OrganizationAdminMail(self)
+
   def save(self, *args, **kwargs):
     if self.pk is not None:
       if not self.__orig_published and self.published:
@@ -70,6 +74,7 @@ class Organization(models.Model):
       # Organization being created
       self.slug = self.generate_slug()
       self.mailing().sendOrganizationCreated()
+      self.admin_mailing().sendOrganizationCreated()
 
     # If there is no description, take 100 chars from the details
     if not self.description and self.details:

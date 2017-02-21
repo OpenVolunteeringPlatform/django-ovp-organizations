@@ -1,4 +1,5 @@
 from ovp_core.emails import BaseMail
+from django.conf import settings
 
 class OrganizationMail(BaseMail):
   """
@@ -96,3 +97,19 @@ class OrganizationMail(BaseMail):
 
     self.__init__(context['organization'], async_mail=self.async_mail, override_receiver=context['organization'].owner.email, locale=context['organization'].owner.locale)
     self.sendEmail('userJoined-toOwner', 'An user has joined an organization you own', context)
+
+
+
+class OrganizationAdminMail(BaseMail):
+  """
+  This class is responsible for firing emails for Organization related actions
+  """
+  def __init__(self, project, async_mail=None):
+    super(OrganizationAdminMail, self).__init__(settings.OVP_CORE['ADMIN_MAIL'], async_mail)
+
+
+  def sendOrganizationCreated(self, context={}):
+    """
+    Sent when organization is created
+    """
+    return self.sendEmail('organizationCreatedToAdmin', 'Organization created', context)
