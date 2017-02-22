@@ -22,8 +22,8 @@ setup(
       'djangorestframework>=3.5.3,<3.6.0',
       'codecov>=2.0.5,<2.1.0',
       'coverage>=4.2,<4.4.0',
-      'ovp-users>=1.0.0,<2.0.0',
-      'ovp-core>=1.0.0,<2.0.0',
+      'ovp-users>=1.1.3,<2.0.0',
+      'ovp-core>=1.2.4,<2.0.0',
       'ovp-uploads>=1.0.0,<2.0.0'
     ]
 )
