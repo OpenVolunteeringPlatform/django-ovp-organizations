@@ -2,7 +2,6 @@ from django.core.exceptions import ValidationError
 
 from ovp_uploads.serializers import UploadedImageSerializer
 
-from ovp_core import validators as core_validators
 from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
 
 from ovp_organizations import models
@@ -17,10 +16,7 @@ from rest_framework.utils import model_meta
 
 
 class OrganizationCreateSerializer(serializers.ModelSerializer):
-  address = GoogleAddressSerializer(
-      validators=[core_validators.address_validate],
-      required=False,
-    )
+  address = GoogleAddressSerializer(required=False)
 
   class Meta:
     model = models.Organization
