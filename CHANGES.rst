@@ -92,4 +92,8 @@ v1.0.9
 v1.0.10
 -----------
 * Add locale to emails
-* Add admin notification email on organization creation
+* Add emails localization
+* Remove address_validate from GoogleAddressSerializer
+
+v1.0.11[unreleased]
+-----------
