@@ -88,3 +88,8 @@ v1.0.8
 v1.0.9
 -----------
 * Fix hide_address decorator in case Organization.hidden_address == False
+
+v1.0.10
+-----------
+* Add locale to emails
+* Add admin notification email on organization creation
