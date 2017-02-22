@@ -95,5 +95,9 @@ v1.0.10
 * Add emails localization
 * Remove address_validate from GoogleAddressSerializer
 
-v1.0.11[unreleased]
+v1.0.11
+-----------
+* Fix requirements
+
+v1.0.12[unreleased]
 -----------
