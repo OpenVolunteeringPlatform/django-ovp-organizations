@@ -42,7 +42,7 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
   ]
 
   search_fields = [
-    'name', 'owner__email', 'address__addressline', 'description'
+    'name', 'owner__email', 'address__typed_address', 'description'
   ]
 
   readonly_fields = ['id', 'created_date', 'modified_date', 'published_date', 'deleted_date']
