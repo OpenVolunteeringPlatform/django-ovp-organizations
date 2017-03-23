@@ -47,9 +47,6 @@ class OrganizationAdmin(admin.ModelAdmin, CountryFilterMixin):
 
   readonly_fields = ['id', 'created_date', 'modified_date', 'published_date', 'deleted_date']
 
-  raw_id_fields = [
-    'owner'
-  ]
 
   filter_horizontal = ('causes', 'members')
 
