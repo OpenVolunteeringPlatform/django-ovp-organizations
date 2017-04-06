@@ -2,7 +2,9 @@ from django.core.exceptions import ValidationError
 
 from ovp_uploads.serializers import UploadedImageSerializer
 
+from ovp_core.models import Cause
 from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
+from ovp_core.serializers.cause import CauseSerializer, CauseAssociationSerializer
 
 from ovp_organizations import models
 from ovp_organizations import validators
@@ -17,14 +19,17 @@ from rest_framework.utils import model_meta
 
 class OrganizationCreateSerializer(serializers.ModelSerializer):
   address = GoogleAddressSerializer(required=False)
+  causes = CauseAssociationSerializer(many=True, required=False)
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address', 'causes']
 
   def create(self, validated_data):
-    # Address
+    causes = validated_data.pop('causes', [])
     address_data = validated_data.pop('address', None)
+
+    # Address
     if address_data:
       address_sr = GoogleAddressSerializer(data=address_data)
       address = address_sr.create(address_data)
@@ -32,9 +37,16 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
     # Organization
     organization = models.Organization.objects.create(**validated_data)
+
+    # Associate causes
+    for cause in causes:
+      c = Cause.objects.get(pk=cause['id'])
+      organization.causes.add(c)
+
     return organization
 
   def update(self, instance, validated_data):
+    causes = validated_data.pop('causes', [])
     address_data = validated_data.pop('address', None)
 
     # Iterate and save fields as drf default
@@ -50,6 +62,13 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
       address_sr = GoogleAddressSerializer(data=address_data)
       address = address_sr.create(address_data)
       instance.address = address
+
+    # Associate causes
+    if causes:
+      instance.causes.clear()
+      for cause in causes:
+        c = Cause.objects.get(pk=cause['id'])
+        instance.causes.add(c)
 
     instance.save()
 
@@ -67,10 +86,11 @@ class OrganizationRetrieveSerializer(serializers.ModelSerializer):
   address = GoogleAddressSerializer()
   image = UploadedImageSerializer()
   cover = UploadedImageSerializer()
+  causes = CauseSerializer(many=True)
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published', 'hidden_address']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published', 'hidden_address', 'causes']
 
   @hide_address
   def to_representation(self, instance):

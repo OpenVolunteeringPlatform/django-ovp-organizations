@@ -10,7 +10,7 @@ from ovp_organizations.models import Organization, OrganizationInvite
 
 import copy
 
-base_organization = {"name": "test organization", "slug": "test-override-slug", "description": "test description", "details": "test details", "type": 0, "address": {"typed_address": "r. tecainda, 81, sao paulo"}}
+base_organization = {"name": "test organization", "slug": "test-override-slug", "description": "test description", "details": "test details", "type": 0, "address": {"typed_address": "r. tecainda, 81, sao paulo"}, "causes": [{"id": 1}, {"id": 2}]}
 
 class OrganizationResourceViewSetTestCase(TestCase):
   def setUp(self):
@@ -38,6 +38,7 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(response.data["slug"] == "test-organization")
     self.assertTrue(response.data["details"] == data["details"])
     self.assertTrue(response.data["description"] == data["description"])
+    self.assertTrue(len(response.data["causes"]) == 2)
 
     organization = Organization.objects.get(pk=response.data["id"])
     self.assertTrue(organization.owner.id == user.id)
@@ -108,6 +109,7 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(response.data["details"] == data["details"])
     self.assertTrue(response.data["description"] == data["description"])
     self.assertTrue(response.data["published"] == False)
+    self.assertTrue(len(response.data["causes"]) == 2)
     self.assertTrue("image" in response.data)
     self.assertTrue("cover" in response.data)
 
@@ -119,7 +121,7 @@ class OrganizationResourceViewSetTestCase(TestCase):
     client = APIClient()
     client.force_authenticate(user=User.objects.last())
 
-    data = {"name": "updated name", "slug": "updated-slug", "details": "updated details", "description": "updated description", "address": {"typed_address": "campinas, sp"}}
+    data = {"name": "updated name", "slug": "updated-slug", "details": "updated details", "description": "updated description", "address": {"typed_address": "campinas, sp"}, "causes": [{"id": 3}, {"id": 4}]}
 
     response = client.patch(reverse("organization-detail", ["test-organization"]), data, format="json")
     self.assertTrue(response.status_code == 200)
@@ -127,6 +129,9 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(response.data["slug"] == data["slug"])
     self.assertTrue(response.data["details"] == data["details"])
     self.assertTrue(response.data["description"] == data["description"])
+    self.assertTrue(len(response.data["causes"]) == 2)
+    self.assertTrue(response.data["causes"][0]["id"] == 3)
+    self.assertTrue(response.data["causes"][1]["id"] == 4)
 
 
 class OrganizationInviteTestCase(TestCase):
