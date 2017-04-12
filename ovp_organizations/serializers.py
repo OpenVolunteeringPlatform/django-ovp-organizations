@@ -23,7 +23,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address', 'causes']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address', 'causes', 'contact_name', 'contact_email', 'contact_phone']
 
   def create(self, validated_data):
     causes = validated_data.pop('causes', [])
@@ -90,7 +90,7 @@ class OrganizationRetrieveSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published', 'hidden_address', 'causes']
+    fields = ['slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'published', 'hidden_address', 'causes', 'contact_name', 'contact_phone', 'contact_email']
 
   @hide_address
   def to_representation(self, instance):

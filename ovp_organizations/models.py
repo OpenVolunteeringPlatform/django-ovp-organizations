@@ -33,6 +33,11 @@ class Organization(models.Model):
   description = models.CharField(_('Short description'), max_length=160, blank=True, null=True)
   hidden_address = models.BooleanField(_('Hidden address'), default=False)
 
+  # Organization contact
+  contact_name = models.CharField(_('Responsible name'), max_length=150, blank=True, null=True)
+  contact_email = models.EmailField(_('Responsible email'), max_length=150, blank=True, null=True)
+  contact_phone = models.CharField(_('Responsible phone'), max_length=150, blank=True, null=True)
+
   # Meta
   highlighted = models.BooleanField(_('Highlighted'), default=False, blank=False)
   published = models.BooleanField(_('Published'), default=False)
