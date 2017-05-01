@@ -164,7 +164,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
   @decorators.detail_route(methods=['GET'])
   def projects(self, request, slug, pk=None):
     organization = self.get_queryset().get(slug=slug)
-    projects = Project.objects.filter(organization=organization).values()
+    projects = Project.objects.filter(organization=organization, published=True).values()
     cnt=0
     for project in projects:
       projects[cnt]['image'] = upload_models.UploadedImage.objects.filter(pk=projects[cnt]['image_id']).values().first()['image']
