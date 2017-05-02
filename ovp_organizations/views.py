@@ -6,6 +6,7 @@ from ovp_organizations import serializers
 from ovp_organizations import models
 from ovp_organizations import permissions as organization_permissions
 
+from ovp_projects.serializers.project import ProjectOnOrganizationRetrieveSerializer
 from ovp_projects.models import Project
 
 from ovp_uploads import models as upload_models
@@ -117,6 +118,14 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
     return response.Response({"detail": "Member was removed."})
 
+  @decorators.detail_route(methods=['GET'])
+  def projects(self, request, slug, pk=None):
+    organization = self.get_object()
+    projects = Project.objects.filter(organization=organization, published=True)
+    serializer = self.get_serializer(projects, many=True)
+
+    return response.Response(serializer.data)
+
   def get_serializer_class(self):
     request = self.get_serializer_context()['request']
     if self.action in ['create', 'partial_update']:
@@ -127,6 +136,8 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
       return serializers.OrganizationInviteSerializer
     if self.action == 'remove_member':
       return serializers.MemberRemoveSerializer
+    if self.action == 'projects':
+      return ProjectOnOrganizationRetrieveSerializer
     if self.action in ['leave', 'join']: # pragma: no cover
       return EmptySerializer
 
@@ -160,15 +171,3 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
 
     headers = self.get_success_headers(serializer.data)
     return response.Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-  @decorators.detail_route(methods=['GET'])
-  def projects(self, request, slug, pk=None):
-    organization = self.get_queryset().get(slug=slug)
-    projects = Project.objects.filter(organization=organization, published=True).values()
-    cnt=0
-    for project in projects:
-      projects[cnt]['image'] = upload_models.UploadedImage.objects.filter(pk=projects[cnt]['image_id']).values().first()['image']
-      projects[cnt]['organization'] = self.get_queryset().get(slug=slug).name
-      cnt += 1
-
-    return response.Response(projects)

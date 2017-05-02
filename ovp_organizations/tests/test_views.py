@@ -7,6 +7,7 @@ from rest_framework.test import APIClient
 from ovp_core.helpers import get_email_subject, is_email_enabled
 from ovp_users.models import User
 from ovp_organizations.models import Organization, OrganizationInvite
+from ovp_projects.models import Project
 
 import copy
 
@@ -141,6 +142,23 @@ class OrganizationResourceViewSetTestCase(TestCase):
     self.assertTrue(len(response.data["causes"]) == 2)
     self.assertTrue(response.data["causes"][0]["id"] == 3)
     self.assertTrue(response.data["causes"][1]["id"] == 4)
+
+  def test_can_retrieve_projects(self):
+    """ Assert it's possible to retrieve organization projects """
+    self.test_can_create_organization()
+
+    organization = Organization.objects.last()
+    organization.published=True
+    organization.save()
+
+    for i in range(5):
+      project = Project(name="project{}".format(i), published=True, organization=organization, owner=User.objects.last())
+      project.save()
+
+    client = APIClient()
+    response = client.get(reverse("organization-projects", ["test-organization"]), format="json")
+    self.assertTrue(len(response.data) == 5)
+    self.assertTrue("name" in response.data[0])
 
 
 class OrganizationInviteTestCase(TestCase):
