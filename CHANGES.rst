@@ -104,3 +104,4 @@ v1.0.12[unreleased]
 * Add admin email
 * Add causes to Organization serializers
 * Add 'contact_name', 'contact_phone' and 'contact_email' to Organization model
+* Add owner to OrganizationRetrieveSerializer

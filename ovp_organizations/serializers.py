@@ -2,6 +2,8 @@ from django.core.exceptions import ValidationError
 
 from ovp_uploads.serializers import UploadedImageSerializer
 
+from ovp_users.models.user import User
+
 from ovp_core.models import Cause
 from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
 from ovp_core.serializers.cause import CauseSerializer, CauseAssociationSerializer
@@ -74,6 +76,11 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
     return instance
 
+class UserOrganizationRetrieveSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['name', 'email', 'phone']
+
 class OrganizationSearchSerializer(serializers.ModelSerializer):
   address = GoogleAddressCityStateSerializer()
   image = UploadedImageSerializer()
@@ -87,6 +94,7 @@ class OrganizationRetrieveSerializer(serializers.ModelSerializer):
   image = UploadedImageSerializer()
   cover = UploadedImageSerializer()
   causes = CauseSerializer(many=True)
+  owner = UserOrganizationRetrieveSerializer()
 
   class Meta:
     model = models.Organization
