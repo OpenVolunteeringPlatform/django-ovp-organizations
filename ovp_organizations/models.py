@@ -110,6 +110,7 @@ class Organization(models.Model):
   class Meta:
     app_label = 'ovp_organizations'
     verbose_name = _('organization')
+    verbose_name_plural = _('organizations')
 
 
 class OrganizationInvite(models.Model):

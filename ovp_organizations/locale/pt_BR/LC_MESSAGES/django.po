@@ -1,0 +1,161 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-23 18:49+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: django-ovp-organizations/ovp_organizations/admin.py:57
+#: django-ovp-organizations/ovp_organizations/admin.py:65
+#: django-ovp-organizations/ovp_organizations/admin.py:73
+msgid "None"
+msgstr "Nenhum"
+
+#: django-ovp-organizations/ovp_organizations/admin.py:58
+msgid "Owner's Name"
+msgstr "Nome do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/admin.py:66
+msgid "Owner's E-mail"
+msgstr "Email do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/admin.py:74
+msgid "Owner's Phone"
+msgstr "Telefone do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:11
+msgid "Organization"
+msgstr "Organização"
+
+#: django-ovp-organizations/ovp_organizations/models.py:12
+msgid "School"
+msgstr "Escola"
+
+#: django-ovp-organizations/ovp_organizations/models.py:13
+msgid "Company"
+msgstr "Compania"
+
+#: django-ovp-organizations/ovp_organizations/models.py:14
+msgid "Group of volunteers"
+msgstr "Grupo de voluntários"
+
+#: django-ovp-organizations/ovp_organizations/models.py:19
+msgid "owner"
+msgstr "responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:20
+msgid "address"
+msgstr "endereço"
+
+#: django-ovp-organizations/ovp_organizations/models.py:21
+msgid "image"
+msgstr "imagem"
+
+#: django-ovp-organizations/ovp_organizations/models.py:22
+msgid "cover"
+msgstr "capa"
+
+#: django-ovp-organizations/ovp_organizations/models.py:23
+msgid "causes"
+msgstr "causas"
+
+#: django-ovp-organizations/ovp_organizations/models.py:24
+msgid "members"
+msgstr "membros"
+
+#: django-ovp-organizations/ovp_organizations/models.py:27
+msgid "Slug"
+msgstr "Slug"
+
+#: django-ovp-organizations/ovp_organizations/models.py:28
+msgid "Name"
+msgstr "Nome"
+
+#: django-ovp-organizations/ovp_organizations/models.py:29
+msgid "Website"
+msgstr "Site"
+
+#: django-ovp-organizations/ovp_organizations/models.py:30
+msgid "Facebook"
+msgstr "Facebook"
+
+#: django-ovp-organizations/ovp_organizations/models.py:31
+msgid "Type"
+msgstr "Tipo"
+
+#: django-ovp-organizations/ovp_organizations/models.py:32
+msgid "Details"
+msgstr "Detalhes"
+
+#: django-ovp-organizations/ovp_organizations/models.py:33
+msgid "Short description"
+msgstr "Descrição Curta"
+
+#: django-ovp-organizations/ovp_organizations/models.py:34
+msgid "Hidden address"
+msgstr "Endereço oculto"
+
+#: django-ovp-organizations/ovp_organizations/models.py:37
+msgid "Responsible name"
+msgstr "Nome do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:38
+msgid "Responsible email"
+msgstr "Email do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:39
+msgid "Responsible phone"
+msgstr "Telefone do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:42
+msgid "Highlighted"
+msgstr "Em destaque"
+
+#: django-ovp-organizations/ovp_organizations/models.py:43
+msgid "Published"
+msgstr "Publicada"
+
+#: django-ovp-organizations/ovp_organizations/models.py:44
+msgid "Published date"
+msgstr "Data de publicação"
+
+#: django-ovp-organizations/ovp_organizations/models.py:45
+msgid "Deleted"
+msgstr "Desligada"
+
+#: django-ovp-organizations/ovp_organizations/models.py:46
+msgid "Deleted date"
+msgstr "Data de desligamento"
+
+#: django-ovp-organizations/ovp_organizations/models.py:47
+msgid "Created date"
+msgstr "Criada em"
+
+#: django-ovp-organizations/ovp_organizations/models.py:48
+msgid "Modified date"
+msgstr "Modificada em"
+
+#: django-ovp-organizations/ovp_organizations/models.py:112
+msgid "organization"
+msgstr "organização"
+
+#: django-ovp-organizations/ovp_organizations/models.py:113
+msgid "organizations"
+msgstr "organizações"
+
+#: django-ovp-organizations/ovp_organizations/models.py:122
+msgid "organization_invite"
+msgstr "convite à organização"
