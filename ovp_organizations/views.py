@@ -28,6 +28,7 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
   OrganizationResourceViewSet resource endpoint
   """
   queryset = models.Organization.objects.all()
+  model = models.Organization
   lookup_field = 'slug'
   lookup_value_regex = '[^/]+' # default is [^/.]+ - here we're allowing dots in the url slug field
 
@@ -122,6 +123,11 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
   def projects(self, request, slug, pk=None):
     organization = self.get_object()
     projects = Project.objects.filter(organization=organization, published=True)
+    page = self.paginate_queryset(projects)
+    if page is not None:
+      serializer = self.get_serializer(page, many=True)
+      print(serializer)
+      return self.get_paginated_response(serializer.data)
     serializer = self.get_serializer(projects, many=True)
 
     return response.Response(serializer.data)

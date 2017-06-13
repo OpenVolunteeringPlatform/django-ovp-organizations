@@ -106,3 +106,4 @@ v1.0.12[unreleased]
 * Add 'contact_name', 'contact_phone' and 'contact_email' to Organization model
 * Add owner to OrganizationRetrieveSerializer
 * Add pt_BR translations
+* Paginate results from organization/{org-slug}/projects/
