@@ -126,7 +126,6 @@ class OrganizationResourceViewSet(mixins.CreateModelMixin, mixins.RetrieveModelM
     page = self.paginate_queryset(projects)
     if page is not None:
       serializer = self.get_serializer(page, many=True)
-      print(serializer)
       return self.get_paginated_response(serializer.data)
     serializer = self.get_serializer(projects, many=True)
 

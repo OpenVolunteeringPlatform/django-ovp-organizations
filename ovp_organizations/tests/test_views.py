@@ -157,8 +157,9 @@ class OrganizationResourceViewSetTestCase(TestCase):
 
     client = APIClient()
     response = client.get(reverse("organization-projects", ["test-organization"]), format="json")
-    self.assertTrue(len(response.data) == 5)
-    self.assertTrue("name" in response.data[0])
+    print(response.data)
+    self.assertEqual(len(response.data), 4)
+    self.assertIn("name", response.data[0])
 
 
 class OrganizationInviteTestCase(TestCase):
