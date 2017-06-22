@@ -5,7 +5,7 @@ from ovp_uploads.serializers import UploadedImageSerializer
 from ovp_users.models.user import User
 
 from ovp_core.models import Cause
-from ovp_core.serializers import GoogleAddressSerializer, GoogleAddressCityStateSerializer
+from ovp_core.helpers import get_address_serializers
 from ovp_core.serializers.cause import CauseSerializer, CauseAssociationSerializer
 
 from ovp_organizations import models
@@ -19,8 +19,14 @@ from rest_framework.compat import set_many
 from rest_framework.utils import model_meta
 
 
+""" Address serializers """
+address_serializers = get_address_serializers()
+
+
+""" Serializers """
+
 class OrganizationCreateSerializer(serializers.ModelSerializer):
-  address = GoogleAddressSerializer(required=False)
+  address = address_serializers[0](required=False)
   causes = CauseAssociationSerializer(many=True, required=False)
 
   class Meta:
@@ -33,7 +39,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
     # Address
     if address_data:
-      address_sr = GoogleAddressSerializer(data=address_data)
+      address_sr = address_serializers[0](data=address_data)
       address = address_sr.create(address_data)
       validated_data['address'] = address
 
@@ -61,7 +67,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
     # Save related resources
     if address_data:
-      address_sr = GoogleAddressSerializer(data=address_data)
+      address_sr = address_serializers[0](data=address_data)
       address = address_sr.create(address_data)
       instance.address = address
 
@@ -82,7 +88,7 @@ class UserOrganizationRetrieveSerializer(serializers.ModelSerializer):
     fields = ['name', 'email', 'phone']
 
 class OrganizationSearchSerializer(serializers.ModelSerializer):
-  address = GoogleAddressCityStateSerializer()
+  address = address_serializers[2]()
   image = UploadedImageSerializer()
 
   class Meta:
@@ -90,7 +96,7 @@ class OrganizationSearchSerializer(serializers.ModelSerializer):
     fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image']
 
 class OrganizationRetrieveSerializer(serializers.ModelSerializer):
-  address = GoogleAddressSerializer()
+  address = address_serializers[0]()
   image = UploadedImageSerializer()
   cover = UploadedImageSerializer()
   causes = CauseSerializer(many=True)

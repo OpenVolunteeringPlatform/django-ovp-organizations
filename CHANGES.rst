@@ -107,3 +107,4 @@ v1.0.12[unreleased]
 * Add owner to OrganizationRetrieveSerializer
 * Add pt_BR translations
 * Paginate results from organization/{org-slug}/projects/
+* Use dynamic address
