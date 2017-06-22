@@ -99,7 +99,7 @@ v1.0.11
 -----------
 * Fix requirements
 
-v1.0.12[unreleased]
+v1.0.12
 -----------
 * Add admin email
 * Add causes to Organization serializers
@@ -108,3 +108,6 @@ v1.0.12[unreleased]
 * Add pt_BR translations
 * Paginate results from organization/{org-slug}/projects/
 * Use dynamic address
+
+v1.0.13[unreleased]
+-----------
