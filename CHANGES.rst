@@ -109,5 +109,9 @@ v1.0.12
 * Paginate results from organization/{org-slug}/projects/
 * Use dynamic address
 
-v1.0.13[unreleased]
+v1.0.13
+-----------
+* Fix requirements
+
+v1.0.14[unreleased]
 -----------
