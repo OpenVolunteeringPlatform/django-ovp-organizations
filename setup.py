@@ -23,8 +23,8 @@ setup(
       'codecov>=2.0.5,<2.1.0',
       'coverage>=4.2,<4.4.0',
       'ovp-users>=1.1.7,<2.0.0',
-      'ovp-core>=1.2.4,<2.0.0',
+      'ovp-core>=1.2.7,<2.0.0',
       'ovp-uploads>=1.0.3,<2.0.0',
-      'ovp-projects>=1.2.10,<2.0.0'
+      'ovp-projects>=1.2.12,<2.0.0'
     ]
 )
