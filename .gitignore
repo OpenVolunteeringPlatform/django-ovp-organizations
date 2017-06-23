@@ -8,3 +8,6 @@ MANIFEST
 .coverage
 coverage.xml
 *.egg-info
+
+django.po
+
