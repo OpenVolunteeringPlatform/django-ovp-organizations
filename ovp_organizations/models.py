@@ -18,7 +18,7 @@ ORGANIZATION_TYPES = (
 class Organization(models.Model):
   # Relationships
   owner = models.ForeignKey('ovp_users.User', verbose_name=_('owner'))
-  address = models.OneToOneField(get_address_model(), blank=True, null=True, verbose_name=_('address'))
+  address = models.OneToOneField(get_address_model(), blank=True, null=True, verbose_name=_('address'), db_constraint=False)
   image = models.ForeignKey('ovp_uploads.UploadedImage', blank=True, null=True, verbose_name=_('image'))
   cover = models.ForeignKey('ovp_uploads.UploadedImage', blank=True, null=True, related_name="+", verbose_name=_('cover'))
   causes = models.ManyToManyField('ovp_core.Cause', verbose_name=_('causes'), blank=True)
