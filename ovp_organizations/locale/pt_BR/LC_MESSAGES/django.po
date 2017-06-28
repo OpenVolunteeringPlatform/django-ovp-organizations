@@ -1,0 +1,161 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-28 21:40+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: django-ovp-organizations/ovp_organizations/admin.py:57
+#: django-ovp-organizations/ovp_organizations/admin.py:65
+#: django-ovp-organizations/ovp_organizations/admin.py:73
+msgid "None"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/admin.py:58
+msgid "Owner's Name"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/admin.py:66
+msgid "Owner's E-mail"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/admin.py:74
+msgid "Owner's Phone"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:12
+msgid "Organization"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:13
+msgid "School"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:14
+msgid "Company"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:15
+msgid "Group of volunteers"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:20
+msgid "owner"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:21
+msgid "address"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:22
+msgid "image"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:23
+msgid "cover"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:24
+msgid "causes"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:25
+msgid "members"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:28
+msgid "Slug"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:29
+msgid "Name"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:30
+msgid "Website"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:31
+msgid "Facebook"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:32
+msgid "Type"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:33
+msgid "Details"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:34
+msgid "Short description"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:35
+msgid "Hidden address"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:38
+msgid "Responsible name"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:39
+msgid "Responsible email"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:40
+msgid "Responsible phone"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:43
+msgid "Highlighted"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:44
+msgid "Published"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:45
+msgid "Published date"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:46
+msgid "Deleted"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:47
+msgid "Deleted date"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:48
+msgid "Created date"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:49
+msgid "Modified date"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:113
+msgid "organization"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:114
+msgid "organizations"
+msgstr ""
+
+#: django-ovp-organizations/ovp_organizations/models.py:124
+msgid "organization_invite"
+msgstr ""
