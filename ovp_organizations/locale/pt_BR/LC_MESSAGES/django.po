@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-28 21:40+0000\n"
+"POT-Creation-Date: 2017-05-23 18:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,140 +22,140 @@ msgstr ""
 #: django-ovp-organizations/ovp_organizations/admin.py:65
 #: django-ovp-organizations/ovp_organizations/admin.py:73
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: django-ovp-organizations/ovp_organizations/admin.py:58
 msgid "Owner's Name"
-msgstr ""
+msgstr "Nome do Responsável"
 
 #: django-ovp-organizations/ovp_organizations/admin.py:66
 msgid "Owner's E-mail"
-msgstr ""
+msgstr "Email do Responsável"
 
 #: django-ovp-organizations/ovp_organizations/admin.py:74
 msgid "Owner's Phone"
-msgstr ""
+msgstr "Telefone do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:11
+msgid "Organization"
+msgstr "Organização"
 
 #: django-ovp-organizations/ovp_organizations/models.py:12
-msgid "Organization"
-msgstr ""
+msgid "School"
+msgstr "Escola"
 
 #: django-ovp-organizations/ovp_organizations/models.py:13
-msgid "School"
-msgstr ""
+msgid "Company"
+msgstr "Compania"
 
 #: django-ovp-organizations/ovp_organizations/models.py:14
-msgid "Company"
-msgstr ""
-
-#: django-ovp-organizations/ovp_organizations/models.py:15
 msgid "Group of volunteers"
-msgstr ""
+msgstr "Grupo de voluntários"
+
+#: django-ovp-organizations/ovp_organizations/models.py:19
+msgid "owner"
+msgstr "responsável"
 
 #: django-ovp-organizations/ovp_organizations/models.py:20
-msgid "owner"
-msgstr ""
+msgid "address"
+msgstr "endereço"
 
 #: django-ovp-organizations/ovp_organizations/models.py:21
-msgid "address"
-msgstr ""
+msgid "image"
+msgstr "imagem"
 
 #: django-ovp-organizations/ovp_organizations/models.py:22
-msgid "image"
-msgstr ""
+msgid "cover"
+msgstr "capa"
 
 #: django-ovp-organizations/ovp_organizations/models.py:23
-msgid "cover"
-msgstr ""
+msgid "causes"
+msgstr "causas"
 
 #: django-ovp-organizations/ovp_organizations/models.py:24
-msgid "causes"
-msgstr ""
-
-#: django-ovp-organizations/ovp_organizations/models.py:25
 msgid "members"
-msgstr ""
+msgstr "membros"
+
+#: django-ovp-organizations/ovp_organizations/models.py:27
+msgid "Slug"
+msgstr "Slug"
 
 #: django-ovp-organizations/ovp_organizations/models.py:28
-msgid "Slug"
-msgstr ""
+msgid "Name"
+msgstr "Nome"
 
 #: django-ovp-organizations/ovp_organizations/models.py:29
-msgid "Name"
-msgstr ""
+msgid "Website"
+msgstr "Site"
 
 #: django-ovp-organizations/ovp_organizations/models.py:30
-msgid "Website"
-msgstr ""
+msgid "Facebook"
+msgstr "Facebook"
 
 #: django-ovp-organizations/ovp_organizations/models.py:31
-msgid "Facebook"
-msgstr ""
+msgid "Type"
+msgstr "Tipo"
 
 #: django-ovp-organizations/ovp_organizations/models.py:32
-msgid "Type"
-msgstr ""
+msgid "Details"
+msgstr "Detalhes"
 
 #: django-ovp-organizations/ovp_organizations/models.py:33
-msgid "Details"
-msgstr ""
+msgid "Short description"
+msgstr "Descrição Curta"
 
 #: django-ovp-organizations/ovp_organizations/models.py:34
-msgid "Short description"
-msgstr ""
-
-#: django-ovp-organizations/ovp_organizations/models.py:35
 msgid "Hidden address"
-msgstr ""
+msgstr "Endereço oculto"
+
+#: django-ovp-organizations/ovp_organizations/models.py:37
+msgid "Responsible name"
+msgstr "Nome do Responsável"
 
 #: django-ovp-organizations/ovp_organizations/models.py:38
-msgid "Responsible name"
-msgstr ""
+msgid "Responsible email"
+msgstr "Email do Responsável"
 
 #: django-ovp-organizations/ovp_organizations/models.py:39
-msgid "Responsible email"
-msgstr ""
-
-#: django-ovp-organizations/ovp_organizations/models.py:40
 msgid "Responsible phone"
-msgstr ""
+msgstr "Telefone do Responsável"
+
+#: django-ovp-organizations/ovp_organizations/models.py:42
+msgid "Highlighted"
+msgstr "Em destaque"
 
 #: django-ovp-organizations/ovp_organizations/models.py:43
-msgid "Highlighted"
-msgstr ""
+msgid "Published"
+msgstr "Publicada"
 
 #: django-ovp-organizations/ovp_organizations/models.py:44
-msgid "Published"
-msgstr ""
+msgid "Published date"
+msgstr "Data de publicação"
 
 #: django-ovp-organizations/ovp_organizations/models.py:45
-msgid "Published date"
-msgstr ""
+msgid "Deleted"
+msgstr "Desligada"
 
 #: django-ovp-organizations/ovp_organizations/models.py:46
-msgid "Deleted"
-msgstr ""
+msgid "Deleted date"
+msgstr "Data de desligamento"
 
 #: django-ovp-organizations/ovp_organizations/models.py:47
-msgid "Deleted date"
-msgstr ""
+msgid "Created date"
+msgstr "Criada em"
 
 #: django-ovp-organizations/ovp_organizations/models.py:48
-msgid "Created date"
-msgstr ""
-
-#: django-ovp-organizations/ovp_organizations/models.py:49
 msgid "Modified date"
-msgstr ""
+msgstr "Modificada em"
+
+#: django-ovp-organizations/ovp_organizations/models.py:112
+msgid "organization"
+msgstr "organização"
 
 #: django-ovp-organizations/ovp_organizations/models.py:113
-msgid "organization"
-msgstr ""
-
-#: django-ovp-organizations/ovp_organizations/models.py:114
 msgid "organizations"
-msgstr ""
+msgstr "organizações"
 
-#: django-ovp-organizations/ovp_organizations/models.py:124
+#: django-ovp-organizations/ovp_organizations/models.py:122
 msgid "organization_invite"
-msgstr ""
+msgstr "convite à organização"
