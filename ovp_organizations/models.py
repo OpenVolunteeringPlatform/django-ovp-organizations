@@ -47,6 +47,7 @@ class Organization(models.Model):
   deleted_date = models.DateTimeField(_('Deleted date'), blank=True, null=True)
   created_date = models.DateTimeField(_('Created date'), auto_now_add=True)
   modified_date = models.DateTimeField(_('Modified date'), auto_now=True)
+  atados_link = models.URLField(_('Website'), blank=True, null=True, default=None)
 
 
   def __init__(self, *args, **kwargs):
