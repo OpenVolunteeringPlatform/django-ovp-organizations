@@ -31,7 +31,7 @@ class OrganizationCreateSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = models.Organization
-    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address', 'causes', 'contact_name', 'contact_email', 'contact_phone']
+    fields = ['id', 'slug', 'owner', 'name', 'website', 'facebook_page', 'address', 'details', 'description', 'type', 'image', 'cover', 'hidden_address', 'causes', 'contact_name', 'contact_email', 'contact_phone', 'atados_link', 'document']
 
   def create(self, validated_data):
     causes = validated_data.pop('causes', [])

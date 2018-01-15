@@ -33,6 +33,8 @@ class Organization(models.Model):
   details = models.TextField(_('Details'), max_length=3000, blank=True, null=True, default=None)
   description = models.CharField(_('Short description'), max_length=160, blank=True, null=True)
   hidden_address = models.BooleanField(_('Hidden address'), default=False)
+  atados_link = models.URLField(_('Website'), blank=True, null=True, default=None)
+  document = models.CharField(_('document'), blank=True, null=True, default=None, max_length=40)
 
   # Organization contact
   contact_name = models.CharField(_('Responsible name'), max_length=150, blank=True, null=True)
@@ -47,8 +49,6 @@ class Organization(models.Model):
   deleted_date = models.DateTimeField(_('Deleted date'), blank=True, null=True)
   created_date = models.DateTimeField(_('Created date'), auto_now_add=True)
   modified_date = models.DateTimeField(_('Modified date'), auto_now=True)
-  atados_link = models.URLField(_('Website'), blank=True, null=True, default=None)
-
 
   def __init__(self, *args, **kwargs):
     super(Organization, self).__init__(*args, **kwargs)
