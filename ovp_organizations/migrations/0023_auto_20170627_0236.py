@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('ovp_organizations', '0022_auto_20170613_1424'),
+        ('ovp_core', '0011_simpleaddress'),
     ]
 
     operations = [
