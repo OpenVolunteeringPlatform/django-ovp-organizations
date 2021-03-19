@@ -19,7 +19,7 @@ setup(
     zip_safe=False,
     install_requires = [
       'Django>=1.10.1,<1.11.0',
-      'djangorestframework>=3.5.3,<3.6.0',
+      'djangorestframework>=3.5.3,<3.12.0',
       'codecov>=2.0.5,<2.1.0',
       'coverage>=4.2,<4.4.0',
       'ovp-users>=1.1.7,<2.0.0',
